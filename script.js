@@ -1,7 +1,6 @@
 // Bestell-Rechner • Burger Shot
-// Render items with price badge + product name next to it.
-// Left area is flexible and text clamps to max 2 lines; controls are fixed on the right (flex: 0 0 auto).
-// Prevent duplicated items by clearing lists before render.
+// Grid-based layout: badge | name | controls
+// Clears lists before render to avoid duplicates.
 
 const ITEMS = [
   { id: 'murder', name: 'Murder Meal', category: 'food', price: 2000 },
@@ -37,22 +36,19 @@ function createItemRow(item){
   row.dataset.category = item.category === 'drink' ? 'Getränk' : item.category === 'dessert' ? 'Dessert' : 'Essen';
   row.dataset.id = item.id;
 
-  // LEFT: badge + text container
-  const left = document.createElement('div');
-  left.className = 'left';
-
+  // badge (column 1)
   const badge = document.createElement('div');
   badge.className = 'badge-price';
   badge.textContent = currency(item.price);
 
+  // name container (column 2)
   const textCont = document.createElement('div');
-  textCont.className = 'text';
+  textCont.className = 'left-text';
 
   const nameDiv = document.createElement('div');
   nameDiv.className = 'name';
   nameDiv.textContent = item.name;
 
-  // muted (kept in DOM but hidden via CSS)
   const muted = document.createElement('div');
   muted.className = 'muted';
   muted.textContent = item.category === 'drink' ? 'Getränk' : item.category === 'dessert' ? 'Dessert' : 'Essen';
@@ -60,10 +56,7 @@ function createItemRow(item){
   textCont.appendChild(nameDiv);
   textCont.appendChild(muted);
 
-  left.appendChild(badge);
-  left.appendChild(textCont);
-
-  // CONTROLS: right side, fixed width behavior via CSS (flex: 0 0 auto)
+  // controls (column 3)
   const controls = document.createElement('div');
   controls.className = 'controls';
 
@@ -98,8 +91,11 @@ function createItemRow(item){
   controls.appendChild(btnPlus1);
   controls.appendChild(btnPlus5);
 
-  row.appendChild(left);
+  // assemble row in grid order: badge, name, controls
+  row.appendChild(badge);
+  row.appendChild(textCont);
   row.appendChild(controls);
+
   return row;
 }
 
