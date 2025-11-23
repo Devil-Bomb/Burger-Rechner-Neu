@@ -56,7 +56,6 @@ body{
   display:flex;
   flex-direction:column;
 }
-
 .board h2{
   margin:0 0 10px 0;
   font-size:13px;
@@ -83,7 +82,7 @@ body{
   position:relative;
   z-index:2;
 
-  /* allow flex children to shrink, prevent visual overflow */
+  /* allow flex children to shrink, prevent overflow */
   min-width: 0;
   overflow: hidden;
 }
@@ -92,24 +91,17 @@ body{
   background: #101518;
 }
 
-/* Left side: badge + text stack (name + small category) */
+/* LEFT: fixed-ish badge + flexible text area so product name sits next to price */
 .left{
   display:flex;
   align-items:center;
   gap:12px;
-  flex: 1 1 auto;
+  /* keep left column wide enough to show name next to badge */
+  flex: 0 1 260px; /* doesn't grow too big, but allows name to show */
   min-width: 0;
 }
 
-/* container inside left for name + muted */
-.left > div{
-  min-width: 0;
-  display:flex;
-  flex-direction:column;
-  gap:4px;
-}
-
-/* price badge */
+/* badge + text wrapper inside left */
 .badge-price{
   background:#0c2a31;
   padding:6px 10px;
@@ -118,22 +110,30 @@ body{
   font-weight:700;
   font-size:13px;
   border:1px solid rgba(255,255,255,0.02);
-  flex-shrink: 0;
+  flex: 0 0 auto; /* fixed size badge */
 }
 
-/* product name (visible, next to badge) */
+/* text container to the right of the badge */
+.left .text {
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  min-width:0;    /* important for ellipsis in flex */
+  flex: 1 1 auto; /* takes remaining space inside left */
+}
+
+/* product name (clearly visible, to the right of badge) */
 .name{
   font-weight:700;
   color: var(--text);
   display:block;
-  flex: 1 1 auto;
-  min-width: 0;
   white-space: normal;    /* allow wrapping */
   overflow: hidden;
   text-overflow: ellipsis;
+  line-height:1.1;
 }
 
-/* small category label under the name (short, one line) */
+/* small category label under the name (one small line, won't overlap) */
 .item .muted {
   display: block;
   color: var(--muted);
@@ -146,7 +146,7 @@ body{
   white-space: nowrap;
 }
 
-/* Controls - buttons on the right */
+/* Controls (buttons) on the right */
 .controls{
   display:flex;
   align-items:center;
