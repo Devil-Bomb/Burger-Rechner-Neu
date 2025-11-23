@@ -10,7 +10,7 @@
   --border-subtle: rgba(255,255,255,0.04);
   --border-strong: rgba(255,255,255,0.06);
   --btn-font: 13px;
-  --container-width: 1400px; /* increased overall size */
+  --container-width: 1500px; /* slightly larger to fit controls on 100% zoom */
 }
 
 /* Basics */
@@ -26,7 +26,7 @@ body{
   padding:36px;
 }
 
-/* Container - larger for better layout at 100% zoom */
+/* Container - increased width so controls remain visible at 100% */
 .container{
   width:var(--container-width);
   max-width:98%;
@@ -46,7 +46,7 @@ body{
 .boards{ display:flex; gap:20px; width:100%; align-items:flex-start; justify-content:center; }
 
 .board{
-  width:380px;
+  width:400px;
   background: var(--card-bg);
   padding:14px;
   border-radius:12px;
@@ -69,11 +69,11 @@ body{
 }
 
 /* Items: grid layout badge | name | controls */
-/* Middle column uses minmax to guarantee readable names at normal zoom */
+/* Middle column minmax increased to give more room at 100% */
 .items{display:flex;flex-direction:column;gap:12px}
 .item{
   display:grid;
-  grid-template-columns: auto minmax(220px, 1fr) auto;
+  grid-template-columns: auto minmax(240px, 1fr) auto;
   align-items:center;
   gap:12px;
   padding:12px;
@@ -84,7 +84,7 @@ body{
   position:relative;
   z-index:1;
   min-width: 0;
-  overflow: hidden;
+  overflow: visible; /* allow controls to be visible even if they extend slightly */
 }
 .item:hover{
   border-color: var(--border-strong);
@@ -115,7 +115,7 @@ body{
   overflow:hidden;
 }
 
-/* Product name: allow up to 2 lines */
+/* Product name: 2 lines on desktop */
 .name{
   font-weight:700;
   color: var(--text);
@@ -130,24 +130,25 @@ body{
   -webkit-box-orient:vertical;
 }
 
-/* hide small category under name */
+/* small category hidden */
 .item .muted { display: none; }
 
-/* controls - right column; fixed (won't shrink) */
+/* controls - right column; fixed and compact */
 .controls{
   grid-column: 3 / 4;
   display:flex;
   align-items:center;
-  gap:10px;
+  gap:8px;
   flex: 0 0 auto;
   justify-self:end;
   white-space:nowrap;
-  z-index:3;
+  z-index:6; /* ensure controls sit above other content */
+  flex-wrap:nowrap;
 }
 
-/* Button base */
+/* Button base - compact so everything fits */
 .btn{
-  padding:6px 10px;
+  padding:6px 8px;
   border-radius:999px;
   border:none;
   color:white;
@@ -164,44 +165,44 @@ body{
 /* minus buttons (red) */
 .btn.minus{
   background: linear-gradient(180deg,#9a2f3a,#6b1a22);
-  box-shadow: 0 2px 6px rgba(154,47,58,0.15);
-  padding:6px 9px;
+  box-shadow: 0 2px 6px rgba(154,47,58,0.12);
+  padding:6px 8px;
+}
+
+/* plus buttons (green) - make brighter and slightly bigger to be noticeable */
+.btn.plus{
+  background: linear-gradient(180deg,#20c07f,#0b8e57);
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(11,142,87,0.12);
+  padding:6px 10px;
+  border: 1px solid rgba(20,192,120,0.15);
 }
 
 /* small variant */
 .btn.small{ padding:5px 7px; font-size:12px; }
+.btn.small.plus{ padding:5px 8px; }
+.btn.small.minus{ padding:5px 8px; }
 
-/* count badge between - and + */
+/* count badge between - and + (high contrast) */
 .count{
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  min-width:34px;
+  min-width:36px;
   height:30px;
-  padding:0 8px;
+  padding:0 10px;
   border-radius:999px;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.05);
+  background: rgba(0,0,0,0.45);
+  border: 1px solid rgba(255,255,255,0.06);
   color: var(--text);
   font-weight:800;
   font-size:13px;
   margin:0 2px;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.02) inset;
+  white-space:nowrap;
 }
 
-/* plus buttons (green) - made more visible */
-.btn.plus{
-  background: linear-gradient(180deg,#19b57a,#0a7b53);
-  color: #fff;
-  box-shadow: 0 4px 14px rgba(10,123,83,0.12);
-  padding:6px 9px;
-  border: 1px solid rgba(26,178,122,0.15);
-}
-
-/* minor sizes for +/-5 buttons */
-.btn.small.plus{ padding:5px 8px; }
-.btn.small.minus{ padding:5px 8px; }
-
-/* Bottom area */
+/* Bottom area (made slightly larger) */
 .bottom-bar{
   margin-top:22px;
   display:flex;
@@ -244,11 +245,11 @@ body{
 
 /* Responsive adjustments */
 @media (max-width:1400px){
-  :root{ --container-width: 1100px; }
+  :root{ --container-width: 1200px; }
 }
 @media (max-width:1200px){
   .container{padding:14px}
-  .board{width:320px}
+  .board{width:340px}
   :root{ --btn-font: 12px; }
   .item{ grid-template-columns: auto minmax(140px, 1fr) auto; }
   .name{ font-size:13px; -webkit-line-clamp:2; }
