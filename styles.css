@@ -66,10 +66,11 @@ body{
   border: 1px solid rgba(255,255,255,0.015);
 }
 
-/* Items: flex layout that prevents overlap */
+/* Items: use grid for robust layout (badge | name | controls) */
 .items{display:flex;flex-direction:column;gap:10px}
 .item{
-  display:flex;
+  display:grid;
+  grid-template-columns: auto 1fr auto; /* badge | name | controls */
   align-items:center;
   gap:12px;
   padding:12px;
@@ -80,25 +81,16 @@ body{
   position:relative;
   z-index:1;
   min-width: 0;
-  overflow: hidden; /* ensure children don't paint outside */
+  overflow: hidden;
 }
 .item:hover{
   border-color: var(--border-strong);
   background: #101518;
 }
 
-/* LEFT: badge + text area */
-/* left is flexible (shrinks) and text clamps to max 2 lines so it never flows under controls */
-.left{
-  display:flex;
-  align-items:flex-start;
-  gap:12px;
-  flex: 1 1 auto;
-  min-width: 0; /* critical to allow shrinking in flexbox */
-}
-
-/* price badge (fixed) */
+/* price badge in column 1 (fixed) */
 .badge-price{
+  grid-column: 1 / 2;
   background:#0c2a31;
   padding:6px 10px;
   border-radius:999px;
@@ -106,27 +98,27 @@ body{
   font-weight:700;
   font-size:13px;
   border:1px solid rgba(255,255,255,0.02);
-  flex: 0 0 auto;
   line-height:1;
+  white-space:nowrap;
 }
 
-/* text container */
-.left .text{
+/* text container in column 2 (flexible) */
+.left-text{
+  grid-column: 2 / 3;
+  min-width:0;
   display:flex;
   flex-direction:column;
   gap:4px;
-  min-width:0;
-  flex: 1 1 auto;
   overflow:hidden;
 }
 
-/* product name: allow up to two lines, then ellipsis */
+/* product name: visible, up to 2 lines, ellipsis afterwards */
 .name{
   font-weight:700;
   color: var(--text);
-  display:block;
-  line-height:1.2;
   font-size:14px;
+  line-height:1.2;
+  margin:0;
   overflow:hidden;
   text-overflow:ellipsis;
   word-break:break-word;
@@ -135,17 +127,19 @@ body{
   -webkit-box-orient:vertical;
 }
 
-/* hide small category under name */
-.item .muted { display: none; }
+/* category hidden */
+.item .muted { display:none; }
 
-/* CONTROLS: fixed, non-shrinking element on right — will not overlap left because left can shrink */
+/* controls in column 3 (fixed, won't shrink) */
 .controls{
+  grid-column: 3 / 4;
   display:flex;
   align-items:center;
   gap:8px;
-  flex: 0 0 auto;    /* do not shrink */
-  margin-left: auto;  /* push controls to the far right */
-  z-index:3;
+  flex: 0 0 auto; /* fixed width behavior */
+  justify-self:end;
+  white-space:nowrap;
+  z-index:2;
 }
 
 /* Buttons */
@@ -224,9 +218,6 @@ body{
 @media (max-width:1200px){
   .container{padding:14px}
   .board{width:320px}
-  /* make controls slightly smaller on medium screens */
-  .controls { gap:6px; }
-  .btn { padding:7px 10px; }
 }
 @media (max-width:980px){
   .boards{flex-direction:column;align-items:stretch}
@@ -234,7 +225,7 @@ body{
   .bottom-bar{flex-direction:column;align-items:stretch}
   .left-panel{width:100%}
   .right-panel{width:100%;align-items:stretch}
-  /* On small screens stack: controls go to the right via margin-left:auto, text will clamp more */
-  .name { -webkit-line-clamp:2; }
-  .btn { padding:6px 8px; font-size:13px; }
+  /* on small screens allow name to clamp to 1 line to avoid wrapping into buttons */
+  .name{ -webkit-line-clamp:1; }
+  .controls{ gap:6px; }
 }
