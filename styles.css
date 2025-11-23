@@ -9,6 +9,7 @@
   --accent-2: #0ea5a2;
   --border-subtle: rgba(255,255,255,0.04);
   --border-strong: rgba(255,255,255,0.06);
+  --btn-font: 13px;
 }
 
 /* Basics */
@@ -66,11 +67,12 @@ body{
   border: 1px solid rgba(255,255,255,0.015);
 }
 
-/* Items: use grid for robust layout (badge | name | controls) */
+/* Items: grid layout badge | name | controls */
+/* Middle column uses minmax to guarantee readable names at normal zoom */
 .items{display:flex;flex-direction:column;gap:10px}
 .item{
   display:grid;
-  grid-template-columns: auto 1fr auto; /* badge | name | controls */
+  grid-template-columns: auto minmax(160px, 1fr) auto; /* <-- key: middle col flexible but not zero */
   align-items:center;
   gap:12px;
   padding:12px;
@@ -88,7 +90,7 @@ body{
   background: #101518;
 }
 
-/* price badge in column 1 (fixed) */
+/* badge - left column */
 .badge-price{
   grid-column: 1 / 2;
   background:#0c2a31;
@@ -102,17 +104,17 @@ body{
   white-space:nowrap;
 }
 
-/* text container in column 2 (flexible) */
+/* name container - middle column */
 .left-text{
   grid-column: 2 / 3;
-  min-width:0;
+  min-width:0; /* critical to allow shrinking */
   display:flex;
   flex-direction:column;
   gap:4px;
   overflow:hidden;
 }
 
-/* product name: visible, up to 2 lines, ellipsis afterwards */
+/* Product name: ensure visibility - allow 2 lines desktop, 1 line small screens */
 .name{
   font-weight:700;
   color: var(--text);
@@ -123,28 +125,28 @@ body{
   text-overflow:ellipsis;
   word-break:break-word;
   display:-webkit-box;
-  -webkit-line-clamp:2;
+  -webkit-line-clamp:2;      /* show up to 2 lines */
   -webkit-box-orient:vertical;
 }
 
-/* category hidden */
-.item .muted { display:none; }
+/* hide small category under name */
+.item .muted { display: none; }
 
-/* controls in column 3 (fixed, won't shrink) */
+/* controls - right column; fixed (won't shrink) */
 .controls{
   grid-column: 3 / 4;
   display:flex;
   align-items:center;
   gap:8px;
-  flex: 0 0 auto; /* fixed width behavior */
+  flex: 0 0 auto;
   justify-self:end;
   white-space:nowrap;
   z-index:2;
 }
 
-/* Buttons */
+/* Compact buttons so they take less space on normal zoom */
 .btn{
-  padding:8px 12px;
+  padding:6px 10px;
   border-radius:999px;
   border:none;
   color:white;
@@ -154,21 +156,21 @@ body{
   align-items:center;
   justify-content:center;
   background: linear-gradient(180deg,#11181a,#0b1416);
-  white-space: nowrap;
+  font-size: var(--btn-font);
 }
-.btn.small{ padding:6px 8px; }
+.btn.small{ padding:5px 7px; font-size:12px; }
 .btn.minus, .btn.plus{
-  padding:8px 10px;
-  min-width:40px;
+  padding:6px 8px;
+  min-width:36px;
 }
 .btn.minus{background:linear-gradient(180deg,#7a1f2d,#5a1620)}
 .btn.plus{background:linear-gradient(180deg,#14a76a,#0b6a4e)}
 
 .count{
-  min-width:36px;
+  min-width:30px;
   text-align:center;
   font-weight:800;
-  font-size:14px;
+  font-size:13px;
   background:transparent;
   color:var(--text);
 }
@@ -214,10 +216,13 @@ body{
   font-weight:700;
 }
 
-/* Responsive tuning */
+/* Responsive adjustments */
 @media (max-width:1200px){
   .container{padding:14px}
   .board{width:320px}
+  :root{ --btn-font: 12px; }
+  .item{ grid-template-columns: auto minmax(120px, 1fr) auto; }
+  .name{ -webkit-line-clamp:2; font-size:13px; }
 }
 @media (max-width:980px){
   .boards{flex-direction:column;align-items:stretch}
@@ -225,7 +230,8 @@ body{
   .bottom-bar{flex-direction:column;align-items:stretch}
   .left-panel{width:100%}
   .right-panel{width:100%;align-items:stretch}
-  /* on small screens allow name to clamp to 1 line to avoid wrapping into buttons */
-  .name{ -webkit-line-clamp:1; }
-  .controls{ gap:6px; }
+  /* on small screens clamp to 1 line so names don't push controls */
+  .item{ grid-template-columns: auto 1fr auto; }
+  .name{ -webkit-line-clamp:1; font-size:13px; }
+  .btn{ padding:6px 8px; font-size:12px; }
 }
