@@ -10,6 +10,7 @@
   --border-subtle: rgba(255,255,255,0.04);
   --border-strong: rgba(255,255,255,0.06);
   --btn-font: 13px;
+  --container-width: 1400px; /* increased overall size */
 }
 
 /* Basics */
@@ -25,31 +26,31 @@ body{
   padding:36px;
 }
 
-/* Container */
+/* Container - larger for better layout at 100% zoom */
 .container{
-  width:1280px;
+  width:var(--container-width);
   max-width:98%;
   border-radius:12px;
-  padding:18px;
+  padding:22px;
   background: var(--card-bg);
   overflow:visible;
 }
 
 /* Header */
-.topbar{ margin-bottom:14px; display:flex; align-items:center; gap:12px; }
-.title h1{margin:0;font-size:18px}
-.subtitle{margin:4px 0 0 0;color:var(--muted);font-size:13px}
+.topbar{ margin-bottom:16px; display:flex; align-items:center; gap:12px; }
+.title h1{margin:0;font-size:20px}
+.subtitle{margin:6px 0 0 0;color:var(--muted);font-size:13px}
 
 /* Boards */
 .boards-outer{ display:flex; justify-content:center; margin-bottom:18px; padding-bottom:18px; }
-.boards{ display:flex; gap:18px; width:100%; align-items:flex-start; justify-content:center; }
+.boards{ display:flex; gap:20px; width:100%; align-items:flex-start; justify-content:center; }
 
 .board{
-  width:360px;
+  width:380px;
   background: var(--card-bg);
-  padding:12px;
+  padding:14px;
   border-radius:12px;
-  min-height:360px;
+  min-height:420px;
   border: 1px solid var(--border-subtle);
   position:relative;
   z-index:1;
@@ -57,7 +58,7 @@ body{
   flex-direction:column;
 }
 .board h2{
-  margin:0 0 10px 0;
+  margin:0 0 12px 0;
   font-size:13px;
   color:var(--muted);
   letter-spacing:2px;
@@ -69,10 +70,10 @@ body{
 
 /* Items: grid layout badge | name | controls */
 /* Middle column uses minmax to guarantee readable names at normal zoom */
-.items{display:flex;flex-direction:column;gap:10px}
+.items{display:flex;flex-direction:column;gap:12px}
 .item{
   display:grid;
-  grid-template-columns: auto minmax(160px, 1fr) auto; /* <-- key: middle col flexible but not zero */
+  grid-template-columns: auto minmax(220px, 1fr) auto;
   align-items:center;
   gap:12px;
   padding:12px;
@@ -94,7 +95,7 @@ body{
 .badge-price{
   grid-column: 1 / 2;
   background:#0c2a31;
-  padding:6px 10px;
+  padding:6px 12px;
   border-radius:999px;
   color:var(--accent-2);
   font-weight:700;
@@ -107,25 +108,25 @@ body{
 /* name container - middle column */
 .left-text{
   grid-column: 2 / 3;
-  min-width:0; /* critical to allow shrinking */
+  min-width:0;
   display:flex;
   flex-direction:column;
   gap:4px;
   overflow:hidden;
 }
 
-/* Product name: ensure visibility - allow 2 lines desktop, 1 line small screens */
+/* Product name: allow up to 2 lines */
 .name{
   font-weight:700;
   color: var(--text);
-  font-size:14px;
+  font-size:15px;
   line-height:1.2;
   margin:0;
   overflow:hidden;
   text-overflow:ellipsis;
   word-break:break-word;
   display:-webkit-box;
-  -webkit-line-clamp:2;      /* show up to 2 lines */
+  -webkit-line-clamp:2;
   -webkit-box-orient:vertical;
 }
 
@@ -137,14 +138,14 @@ body{
   grid-column: 3 / 4;
   display:flex;
   align-items:center;
-  gap:8px;
+  gap:10px;
   flex: 0 0 auto;
   justify-self:end;
   white-space:nowrap;
-  z-index:2;
+  z-index:3;
 }
 
-/* Compact buttons so they take less space on normal zoom */
+/* Button base */
 .btn{
   padding:6px 10px;
   border-radius:999px;
@@ -157,32 +158,57 @@ body{
   justify-content:center;
   background: linear-gradient(180deg,#11181a,#0b1416);
   font-size: var(--btn-font);
+  box-shadow: 0 2px 0 rgba(0,0,0,0.25) inset;
 }
-.btn.small{ padding:5px 7px; font-size:12px; }
-.btn.minus, .btn.plus{
-  padding:6px 8px;
-  min-width:36px;
-}
-.btn.minus{background:linear-gradient(180deg,#7a1f2d,#5a1620)}
-.btn.plus{background:linear-gradient(180deg,#14a76a,#0b6a4e)}
 
+/* minus buttons (red) */
+.btn.minus{
+  background: linear-gradient(180deg,#9a2f3a,#6b1a22);
+  box-shadow: 0 2px 6px rgba(154,47,58,0.15);
+  padding:6px 9px;
+}
+
+/* small variant */
+.btn.small{ padding:5px 7px; font-size:12px; }
+
+/* count badge between - and + */
 .count{
-  min-width:30px;
-  text-align:center;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:34px;
+  height:30px;
+  padding:0 8px;
+  border-radius:999px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.05);
+  color: var(--text);
   font-weight:800;
   font-size:13px;
-  background:transparent;
-  color:var(--text);
+  margin:0 2px;
 }
+
+/* plus buttons (green) - made more visible */
+.btn.plus{
+  background: linear-gradient(180deg,#19b57a,#0a7b53);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(10,123,83,0.12);
+  padding:6px 9px;
+  border: 1px solid rgba(26,178,122,0.15);
+}
+
+/* minor sizes for +/-5 buttons */
+.btn.small.plus{ padding:5px 8px; }
+.btn.small.minus{ padding:5px 8px; }
 
 /* Bottom area */
 .bottom-bar{
-  margin-top:18px;
+  margin-top:22px;
   display:flex;
   gap:18px;
   align-items:flex-start;
   justify-content:space-between;
-  padding:14px;
+  padding:18px;
   border-radius:12px;
   background: var(--card-bg);
   border: 1px solid var(--border-subtle);
@@ -191,7 +217,7 @@ body{
 }
 
 /* Totals */
-.left-panel{ display:flex; flex-direction:column; gap:10px; min-width:420px; }
+.left-panel{ display:flex; flex-direction:column; gap:10px; min-width:520px; }
 .totals-card{ background: var(--panel-bg); padding:12px; border-radius:10px; border: 1px solid var(--border-subtle); }
 .totals-row{display:flex;gap:18px;align-items:center}
 .totals-row .muted{color:var(--muted);font-size:13px}
@@ -201,7 +227,7 @@ body{
 /* Invoice */
 .right-panel{ display:flex; flex-direction:column; gap:8px; align-items:flex-end; width:60%; }
 .invoice-card{ width:100%; background: var(--panel-bg); padding:12px; border-radius:10px; border:1px solid var(--border-subtle); display:flex; flex-direction:column; gap:10px; }
-.invoice-card #invoiceText{ width:100%; min-height:54px; padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.03); background: var(--panel-bg); color:var(--text); resize:vertical; }
+.invoice-card #invoiceText{ width:100%; min-height:64px; padding:12px; border-radius:8px; border:1px solid rgba(255,255,255,0.03); background: var(--panel-bg); color:var(--text); resize:vertical; }
 
 /* Buttons under invoice */
 .buttons{display:flex;gap:8px;justify-content:flex-end}
@@ -217,12 +243,15 @@ body{
 }
 
 /* Responsive adjustments */
+@media (max-width:1400px){
+  :root{ --container-width: 1100px; }
+}
 @media (max-width:1200px){
   .container{padding:14px}
   .board{width:320px}
   :root{ --btn-font: 12px; }
-  .item{ grid-template-columns: auto minmax(120px, 1fr) auto; }
-  .name{ -webkit-line-clamp:2; font-size:13px; }
+  .item{ grid-template-columns: auto minmax(140px, 1fr) auto; }
+  .name{ font-size:13px; -webkit-line-clamp:2; }
 }
 @media (max-width:980px){
   .boards{flex-direction:column;align-items:stretch}
