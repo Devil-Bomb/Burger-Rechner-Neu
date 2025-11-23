@@ -1,6 +1,5 @@
 // Bestell-Rechner • Burger Shot
-// Renders items with price badge + product name to its right.
-// Prevents duplicate rendering and sets up controls.
+// Restore product names next to price, reserve space for controls, avoid duplicates.
 
 const ITEMS = [
   { id: 'murder', name: 'Murder Meal', category: 'food', price: 2000 },
@@ -36,7 +35,7 @@ function createItemRow(item){
   row.dataset.category = item.category === 'drink' ? 'Getränk' : item.category === 'dessert' ? 'Dessert' : 'Essen';
   row.dataset.id = item.id;
 
-  // LEFT block: badge + .text container (name)
+  // LEFT block: badge + text container
   const left = document.createElement('div');
   left.className = 'left';
 
@@ -51,7 +50,6 @@ function createItemRow(item){
   nameDiv.className = 'name';
   nameDiv.textContent = item.name;
 
-  // small muted (created but hidden by CSS)
   const muted = document.createElement('div');
   muted.className = 'muted';
   muted.textContent = item.category === 'drink' ? 'Getränk' : item.category === 'dessert' ? 'Dessert' : 'Essen';
@@ -62,7 +60,7 @@ function createItemRow(item){
   left.appendChild(badge);
   left.appendChild(textCont);
 
-  // Controls (right side)
+  // CONTROLS
   const controls = document.createElement('div');
   controls.className = 'controls';
 
@@ -110,7 +108,7 @@ function renderLists(){
     if (!foodList || !dessertList || !drinkList) return;
   }
 
-  // clear lists to avoid duplicates
+  // clear to avoid duplicates
   foodList.innerHTML = '';
   dessertList.innerHTML = '';
   drinkList.innerHTML = '';
@@ -211,7 +209,6 @@ function resetAll(){
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  // attach copy/reset once
   if (!window.__burgershot_initialized) {
     const copyBtn = document.getElementById('copyInvoice');
     const resetBtn = document.getElementById('resetAll');
