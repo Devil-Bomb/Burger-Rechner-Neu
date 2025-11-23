@@ -9,7 +9,6 @@
   --accent-2: #0ea5a2;
   --border-subtle: rgba(255,255,255,0.04);
   --border-strong: rgba(255,255,255,0.06);
-  --transparent: transparent;
 }
 
 /* Basics */
@@ -71,7 +70,7 @@ body{
 .items{display:flex;flex-direction:column;gap:10px}
 .item{
   display:flex;
-  align-items:center;
+  align-items:flex-start; /* align to top so multi-line names don't get vertically centered/clipped */
   justify-content:space-between;
   gap:12px;
   padding:12px;
@@ -81,27 +80,25 @@ body{
   transition: border-color .12s ease, background .12s ease;
   position:relative;
   z-index:2;
-
-  /* allow flex children to shrink, prevent overflow */
   min-width: 0;
-  overflow: hidden;
+  overflow: visible; /* allow descenders if needed; children manage their own overflow */
 }
 .item:hover{
   border-color: var(--border-strong);
   background: #101518;
 }
 
-/* LEFT: fixed-ish badge + flexible text area so product name sits next to price */
+/* LEFT: badge + text area so product name sits next to price */
+/* set align-items:flex-start so the name can use multiple lines and descenders are visible */
 .left{
   display:flex;
-  align-items:center;
+  align-items:flex-start;
   gap:12px;
-  /* keep left column wide enough to show name next to badge */
-  flex: 0 1 260px; /* doesn't grow too big, but allows name to show */
+  flex: 1 1 260px; /* left column takes available space but won't collapse too small */
   min-width: 0;
 }
 
-/* badge + text wrapper inside left */
+/* price badge */
 .badge-price{
   background:#0c2a31;
   padding:6px 10px;
@@ -110,43 +107,39 @@ body{
   font-weight:700;
   font-size:13px;
   border:1px solid rgba(255,255,255,0.02);
-  flex: 0 0 auto; /* fixed size badge */
+  flex: 0 0 auto;
+  line-height:1; /* ensure badge height stable */
 }
 
 /* text container to the right of the badge */
-.left .text {
+.left .text{
   display:flex;
   flex-direction:column;
-  gap:4px;
-  min-width:0;    /* important for ellipsis in flex */
-  flex: 1 1 auto; /* takes remaining space inside left */
+  gap:2px;
+  min-width:0;
+  flex: 1 1 auto;
 }
 
-/* product name (clearly visible, to the right of badge) */
+/* product name visible next to price (wrap if needed) */
+/* increase line-height so descenders (g, y, p) are fully visible and not clipped */
 .name{
   font-weight:700;
   color: var(--text);
   display:block;
   white-space: normal;    /* allow wrapping */
-  overflow: hidden;
-  text-overflow: ellipsis;
-  line-height:1.1;
+  overflow: visible;
+  text-overflow: unset;
+  line-height:1.25;
+  margin:0; 
+  padding:0;
 }
 
-/* small category label under the name (one small line, won't overlap) */
+/* hide the small category under name (you asked to remove it earlier) */
 .item .muted {
-  display: block;
-  color: var(--muted);
-  font-size: 12px;
-  margin-top: 2px;
-  line-height: 1;
-  max-width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  display: none;
 }
 
-/* Controls (buttons) on the right */
+/* Controls (buttons) */
 .controls{
   display:flex;
   align-items:center;
@@ -216,8 +209,25 @@ body{
 
 /* Buttons under invoice */
 .buttons{display:flex;gap:8px;justify-content:flex-end}
+
+/* Primary copy button (unchanged) */
 .btn-primary{background:linear-gradient(180deg,#0b6a8a,#0f4d6d);padding:10px 14px;border-radius:10px;border:none;color:white;cursor:pointer;font-weight:700}
-.btn-reset{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:10px 14px;border-radius:10px;color:var(--muted);cursor:pointer}
+
+/* RESET button: now red */
+.btn-reset{
+  background: linear-gradient(180deg,#a73a3a,#7a1f2d); /* red gradient */
+  color: #fff;
+  border: 1px solid rgba(167,58,58,0.2);
+  padding:10px 14px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:700;
+  box-shadow: 0 2px 0 rgba(0,0,0,0.15) inset;
+}
+.btn-reset:hover{
+  background: linear-gradient(180deg,#c04b4b,#8b2323);
+  border-color: rgba(192,75,75,0.25);
+}
 
 /* Responsive */
 @media (max-width:1200px){
