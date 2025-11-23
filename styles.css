@@ -125,12 +125,16 @@ body{
   min-width: 0;
 }
 
-/* Name-Text abschneiden/ellipsis falls zu lang (verhindert Layout-Brüche) */
+/* Produktname sichtbar machen und korrekt umbrechen */
 .name{
   font-weight:700;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  color: var(--text);      /* sicherstellen, dass Namen sichtbar sind */
+  display:block;
+  flex: 1 1 auto;         /* Name nimmt verfügbaren Platz */
+  min-width: 0;           /* wichtig für Flexbox */
+  white-space: normal;    /* erlaubt Zeilenumbruch, damit nicht verschwindet */
+  overflow: visible;
+  text-overflow: unset;
 }
 
 /* Linke Spalte - Preis-Badge */
@@ -147,10 +151,6 @@ body{
 .item .muted {
   display: none;
 }
-
-/* Falls du die Beschriftung lieber ganz weglassen willst, das reicht.
-   Wenn du die Beschriftung an anderer Stelle behalten willst (z.B. in den Board-Headern),
-   diese Regel ist gezielt auf .item begrenzt und beeinflusst die .muted in .totals-card etc. nicht. */
 
 /* Controls / Buttons - gleiche Größe für +/- */
 .controls{
