@@ -1,0 +1,226 @@
+:root{
+  --bg: #071018;
+  --card-bg: #0b1113;        /* Hintergrund für Container / Karten */
+  --item-box-bg: #0f1416;    /* Hintergrund für einzelne Produkt-Kästchen */
+  --panel-bg: #0e1416;       /* leicht abgehobener Panel-Hintergrund für Totals/Invoice */
+  --text: #e6eef6;
+  --muted: #97a6b2;
+  --accent: #12b886;
+  --accent-2: #0ea5a2;
+  --border-subtle: rgba(255,255,255,0.04);
+  --border-strong: rgba(255,255,255,0.06);
+  --transparent: transparent;
+}
+
+/* Basics */
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{
+  font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+  background: var(--bg);
+  color: var(--text);
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  padding:36px;
+}
+
+/* Container */
+.container{
+  width:1280px;
+  max-width:98%;
+  border-radius:12px;
+  padding:18px;
+  background: var(--card-bg);
+  box-shadow: none;
+  overflow:visible;
+}
+
+/* Header */
+.topbar{ margin-bottom:14px; display:flex; align-items:center; gap:12px; }
+.title h1{margin:0;font-size:18px}
+.subtitle{margin:4px 0 0 0;color:var(--muted);font-size:13px}
+
+/* Abstand zwischen Boards und bottom-bar */
+.boards-outer{
+  display:flex;
+  justify-content:center;
+  margin-bottom:18px;
+  padding-bottom:18px;
+}
+
+/* Boards: drei Spalten nebeneinander */
+.boards{
+  display:flex;
+  gap:18px;
+  width:100%;
+  align-items:flex-start;
+  justify-content:center;
+}
+
+/* Karten: deutliche, konsistente Einrahmung */
+.board{
+  width:360px;
+  background: var(--card-bg);
+  padding:12px;
+  border-radius:12px;
+  min-height:360px;
+  border: 1px solid var(--border-subtle);
+  box-shadow: none;
+  position:relative;
+  z-index:1;
+  display:flex;
+  flex-direction:column;
+}
+
+/* Board-Header optisch absetzen */
+.board h2{
+  margin:0 0 10px 0;
+  font-size:13px;
+  color:var(--muted);
+  letter-spacing:2px;
+  padding:8px 10px;
+  border-radius:8px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.01));
+  border: 1px solid rgba(255,255,255,0.015);
+}
+
+/* Items: klares Kästchen innen */
+.items{display:flex;flex-direction:column;gap:10px}
+.item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px;
+  border-radius:10px;
+  background: var(--item-box-bg);
+  border: 1px solid var(--border-subtle);
+  transition: border-color .12s ease, background .12s ease;
+  position:relative;
+  z-index:2;
+}
+
+/* Dezentere Hover-Farbe ohne Schatten- / Kontrastartefakte */
+.item:hover{
+  border-color: var(--border-strong);
+  background: #101518;
+}
+
+/* Linke Spalte / Preis-Badge */
+.left{display:flex;align-items:center;gap:12px}
+.badge-price{
+  background:#0c2a31;
+  padding:6px 10px;border-radius:999px;color:var(--accent-2);font-weight:700;font-size:13px;
+  border:1px solid rgba(255,255,255,0.02);
+}
+.name{font-weight:700}
+.muted{font-size:12px;color:var(--muted)}
+
+/* Controls / Buttons - gleiche Größe für +/- */
+.controls{display:flex;align-items:center;gap:8px}
+.btn{
+  padding:8px 12px;border-radius:999px;border:none;color:white;font-weight:700;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;
+  background: linear-gradient(180deg,#11181a,#0b1416);
+}
+.btn.small{padding:6px 9px}
+.btn.minus,
+.btn.plus{
+  padding:8px 12px;
+  min-width:46px; /* exakt gleiche Maße für -1 und +1 */
+}
+.btn.minus{background:linear-gradient(180deg,#7a1f2d,#5a1620)}
+.btn.plus{background:linear-gradient(180deg,#14a76a,#0b6a4e)}
+
+.count{
+  min-width:36px;text-align:center;font-weight:800;font-size:14px;background:transparent;color:var(--text)
+}
+
+/* Bottom bar: äußere Leiste mit Innen-Karten für Totals und Invoice */
+.bottom-bar{
+  margin-top:6px;
+  display:flex;
+  gap:18px;
+  align-items:flex-start;
+  justify-content:space-between;
+  padding:14px;
+  border-radius:12px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-subtle);
+  position:relative;
+  z-index:2;
+  box-shadow:none;
+}
+
+/* Totals-Kästchen (links) - eingerahmt wie die Kategorien */
+.left-panel{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  min-width:420px;
+}
+.totals-card{
+  background: var(--panel-bg);
+  padding:12px;
+  border-radius:10px;
+  border: 1px solid var(--border-subtle);
+}
+
+/* Totals-Reihe */
+.totals-row{display:flex;gap:18px;align-items:center}
+.totals-row .muted{color:var(--muted);font-size:13px}
+.totals-row .big{font-weight:800;font-size:18px}
+.total-price{
+  font-size:18px;color:var(--accent);font-weight:800;
+  margin-top:4px;
+}
+
+/* Invoice-Kästchen (rechts) - eingerahmt */
+.right-panel{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  align-items:flex-end;
+  width:60%;
+}
+.invoice-card{
+  width:100%;
+  background: var(--panel-bg);
+  padding:12px;
+  border-radius:10px;
+  border:1px solid var(--border-subtle);
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+/* Invoice textarea: KEIN weißer Hintergrund mehr, sondern graues Panel wie gewünscht */
+.invoice-card #invoiceText{
+  width:100%;
+  min-height:54px;
+  padding:10px;
+  border-radius:8px;
+  border:1px solid rgba(255,255,255,0.03);
+  background: var(--panel-bg); /* grau wie die anderen Panels */
+  color:var(--text);
+  resize:vertical;
+}
+
+/* Buttons unter dem Invoice-Kästchen */
+.buttons{display:flex;gap:8px;justify-content:flex-end}
+.btn-primary{background:linear-gradient(180deg,#0b6a8a,#0f4d6d);padding:10px 14px;border-radius:10px;border:none;color:white;cursor:pointer;font-weight:700}
+.btn-reset{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:10px 14px;border-radius:10px;color:var(--muted);cursor:pointer}
+
+/* Responsive: Spalten bei kleinen Bildschirmen stapeln */
+@media (max-width:1200px){
+  .container{padding:14px}
+  .board{width:320px}
+}
+@media (max-width:980px){
+  .boards{flex-direction:column;align-items:stretch}
+  .board{width:100%}
+  .bottom-bar{flex-direction:column;align-items:stretch}
+  .left-panel{width:100%}
+  .right-panel{width:100%;align-items:stretch}
+}

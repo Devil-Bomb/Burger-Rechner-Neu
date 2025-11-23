@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Bestell-Rechner • Burger Shot</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="container">
+    <header class="topbar">
+      <div class="title">
+        <h1>Bestell‑Rechner</h1>
+        <p class="subtitle">Schnell bestellen & Rechnungstext kopieren</p>
+      </div>
+    </header>
+
+    <section class="boards-outer">
+      <div class="boards">
+        <div class="board" id="board-food">
+          <h2>ESSEN</h2>
+          <div class="items" id="food-list"></div>
+        </div>
+
+        <div class="board" id="board-dessert">
+          <h2>DESSERTS</h2>
+          <div class="items" id="dessert-list"></div>
+        </div>
+
+        <div class="board" id="board-drink">
+          <h2>GETRÄNKE</h2>
+          <div class="items" id="drink-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="bottom-bar">
+      <div class="left-panel">
+        <div class="totals-card">
+          <div class="totals-row">
+            <div class="muted">Gesamtessen</div>
+            <div class="big" id="total-food">0</div>
+            <div class="muted">Gesamtgetränke</div>
+            <div class="big" id="total-drink">0</div>
+          </div>
+          <div class="total-price">
+            Gesamtpreis: <span id="total-price">0$</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="right-panel">
+        <div class="invoice-card">
+          <textarea id="invoiceText" readonly rows="2" placeholder="Hier erscheint der Rechnungstext..."></textarea>
+          <div class="buttons">
+            <button id="copyInvoice" class="btn-primary">Rechnungstext kopieren</button>
+            <button id="resetAll" class="btn-reset">Reset</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
