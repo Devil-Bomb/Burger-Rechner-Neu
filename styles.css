@@ -66,11 +66,11 @@ body{
   border: 1px solid rgba(255,255,255,0.015);
 }
 
-/* Items */
+/* Items layout */
 .items{display:flex;flex-direction:column;gap:10px}
 .item{
   display:flex;
-  align-items:center;               /* center vertically so text and badge align nicely */
+  align-items:flex-start;      /* allow multilines */
   justify-content:space-between;
   gap:12px;
   padding:12px;
@@ -81,25 +81,24 @@ body{
   position:relative;
   z-index:1;
   min-width: 0;
-  overflow: hidden;                 /* prevent children from visually overflowing */
+  overflow: visible;
 }
 .item:hover{
   border-color: var(--border-strong);
   background: #101518;
 }
 
-/* LEFT: badge + text area so product name sits next to price */
-/* left is flexible and takes available space; text won't flow under controls */
+/* LEFT: badge + text area */
 .left{
   display:flex;
-  align-items:center;
+  align-items:flex-start;
   gap:12px;
-  flex: 1 1 280px;  /* flexible but keeps enough room for the product name */
-  min-width: 0;     /* allow shrink in flexbox without overflow issues */
-  padding-right: 12px; /* ensure a small gap to controls */
+  flex: 1 1 auto;   /* flexible to fill remaining space */
+  min-width: 0;
+  padding-right: 8px; /* small gap to controls */
 }
 
-/* price badge */
+/* price badge - fixed size */
 .badge-price{
   background:#0c2a31;
   padding:6px 10px;
@@ -119,34 +118,35 @@ body{
   gap:2px;
   min-width:0;
   flex: 1 1 auto;
-  overflow: hidden;
+  overflow: visible;
 }
 
-/* product name visible next to price (wrap if needed) */
-/* ensure descenders are fully visible and text isn't clipped */
+/* product name visible next to price (wrap allowed) */
+/* ensure descenders fully visible and not clipped */
 .name{
   font-weight:700;
   color: var(--text);
   display:block;
-  white-space: normal;    /* allow wrapping */
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
   line-height:1.25;
   margin:0;
   padding:0;
 }
 
-/* small category element is hidden per your request */
+/* hide the category under each item (you asked earlier) */
 .item .muted { display: none; }
 
-/* Controls (buttons) - always pushed to the far right to avoid overlapping the left text */
+/* Controls (buttons) - reserve fixed space so left content never flows under them */
 .controls{
   display:flex;
   align-items:center;
   gap:8px;
-  flex: 0 0 auto;      /* do not shrink */
-  margin-left: auto;   /* push controls to the rightmost edge of the item */
-  z-index: 5;          /* above left content if stacking occurs */
+  flex: 0 0 220px;     /* reserved width for all buttons */
+  justify-content:flex-end;
+  margin-left: 8px;
+  z-index:5;
 }
 
 /* Buttons */
@@ -182,7 +182,7 @@ body{
 
 /* Bottom area */
 .bottom-bar{
-  margin-top:6px;
+  margin-top:18px;
   display:flex;
   gap:18px;
   align-items:flex-start;
@@ -221,10 +221,12 @@ body{
   font-weight:700;
 }
 
-/* Responsive */
+/* Responsive adjustments */
 @media (max-width:1200px){
   .container{padding:14px}
   .board{width:320px}
+  .controls{flex: 0 0 200px;}
+  .left{flex: 1 1 220px;}
 }
 @media (max-width:980px){
   .boards{flex-direction:column;align-items:stretch}
@@ -232,4 +234,5 @@ body{
   .bottom-bar{flex-direction:column;align-items:stretch}
   .left-panel{width:100%}
   .right-panel{width:100%;align-items:stretch}
+  .controls{flex: 0 0 180px;}
 }
