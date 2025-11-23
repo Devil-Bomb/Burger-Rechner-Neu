@@ -1,7 +1,7 @@
 // Bestell-Rechner • Burger Shot
-// Renders items with price badge and product name to its right.
-// Uses absolute-positioned controls + left padding to prevent overlap.
-// Avoids duplicate rendering and attaches controls once.
+// Render items with price badge + product name next to it.
+// Left area is flexible and text clamps to max 2 lines; controls are fixed on the right (flex: 0 0 auto).
+// Prevent duplicated items by clearing lists before render.
 
 const ITEMS = [
   { id: 'murder', name: 'Murder Meal', category: 'food', price: 2000 },
@@ -37,7 +37,7 @@ function createItemRow(item){
   row.dataset.category = item.category === 'drink' ? 'Getränk' : item.category === 'dessert' ? 'Dessert' : 'Essen';
   row.dataset.id = item.id;
 
-  // LEFT: badge + text
+  // LEFT: badge + text container
   const left = document.createElement('div');
   left.className = 'left';
 
@@ -52,7 +52,7 @@ function createItemRow(item){
   nameDiv.className = 'name';
   nameDiv.textContent = item.name;
 
-  // muted kept but hidden by CSS
+  // muted (kept in DOM but hidden via CSS)
   const muted = document.createElement('div');
   muted.className = 'muted';
   muted.textContent = item.category === 'drink' ? 'Getränk' : item.category === 'dessert' ? 'Dessert' : 'Essen';
@@ -63,7 +63,7 @@ function createItemRow(item){
   left.appendChild(badge);
   left.appendChild(textCont);
 
-  // CONTROLS: absolute positioned by CSS
+  // CONTROLS: right side, fixed width behavior via CSS (flex: 0 0 auto)
   const controls = document.createElement('div');
   controls.className = 'controls';
 
@@ -111,7 +111,7 @@ function renderLists(){
     if (!foodList || !dessertList || !drinkList) return;
   }
 
-  // clear lists to avoid duplicates
+  // clear existing nodes to avoid duplicates/old layout
   foodList.innerHTML = '';
   dessertList.innerHTML = '';
   drinkList.innerHTML = '';
@@ -212,7 +212,7 @@ function resetAll(){
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  // attach controls once
+  // attach copy/reset once
   if (!window.__burgershot_initialized) {
     const copyBtn = document.getElementById('copyInvoice');
     const resetBtn = document.getElementById('resetAll');
