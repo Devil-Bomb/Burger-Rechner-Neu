@@ -99,6 +99,10 @@ body{
   transition: border-color .12s ease, background .12s ease;
   position:relative;
   z-index:2;
+
+  /* Fix für Überlauf: erlaubt Flex-Kindern zu schrumpfen und verhindert Herausragen */
+  min-width: 0;
+  overflow: hidden;
 }
 
 /* Dezentere Hover-Farbe ohne Schatten- / Kontrastartefakte */
@@ -107,29 +111,69 @@ body{
   background: #101518;
 }
 
-/* Linke Spalte / Preis-Badge */
-.left{display:flex;align-items:center;gap:12px}
+/* Linke Spalte: Preis + Name, darf schrumpfen */
+.left{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex: 1 1 auto;   /* wächst und schrumpft, nimmt verbleibenden Platz ein */
+  min-width: 0;     /* wichtig, damit das Element wirklich schrumpfen kann */
+}
+
+/* Inneres Text-Wrapper im linken Bereich ebenfalls schrumpfbar */
+.left > div{
+  min-width: 0;
+}
+
+/* Name-Text abschneiden/ellipsis falls zu lang (verhindert Layout-Brüche) */
+.name{
+  font-weight:700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Linke Spalte - Preis-Badge */
 .badge-price{
   background:#0c2a31;
   padding:6px 10px;border-radius:999px;color:var(--accent-2);font-weight:700;font-size:13px;
   border:1px solid rgba(255,255,255,0.02);
+  flex-shrink: 0; /* Badge bleibt sichtbar, verursacht kein unerwartetes Shrinking */
 }
-.name{font-weight:700}
+
+/* Muted text */
 .muted{font-size:12px;color:var(--muted)}
 
 /* Controls / Buttons - gleiche Größe für +/- */
-.controls{display:flex;align-items:center;gap:8px}
+.controls{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-shrink: 0;      /* Controls behalten ihre Breite, werden nicht ins Layout gedrängt */
+  margin-left: 8px;
+}
+
+/* Standard Button */
 .btn{
   padding:8px 12px;border-radius:999px;border:none;color:white;font-weight:700;cursor:pointer;
   display:inline-flex;align-items:center;justify-content:center;
   background: linear-gradient(180deg,#11181a,#0b1416);
+  white-space: nowrap;
 }
-.btn.small{padding:6px 9px}
+
+/* Kleine Buttons leicht kompakter */
+.btn.small{
+  padding:6px 8px; /* vorher 6px 9px — etwas schmaler für bessere Passform */
+}
+
+/* +/- Buttons - etwas schmalere Min-Width, damit sie besser in schmale Layouts passen */
 .btn.minus,
 .btn.plus{
-  padding:8px 12px;
-  min-width:46px; /* exakt gleiche Maße für -1 und +1 */
+  padding:8px 10px;
+  min-width:40px; /* vorher 46px, reduziert Überlauf-Risiko */
 }
+
+/* Farbliche Varianten */
 .btn.minus{background:linear-gradient(180deg,#7a1f2d,#5a1620)}
 .btn.plus{background:linear-gradient(180deg,#14a76a,#0b6a4e)}
 
