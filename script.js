@@ -1,6 +1,6 @@
 // Bestell-Rechner • Burger Shot
 // Grid-based layout: badge | name | controls
-// Clears lists before render to avoid duplicates.
+// Clears lists before render to avoid duplicates. Buttons include -5, -1, count, +1, +5
 
 const ITEMS = [
   { id: 'murder', name: 'Murder Meal', category: 'food', price: 2000 },
