@@ -1,6 +1,5 @@
 // Bestell-Rechner • Burger Shot
-// Fix: prevent duplicated items by clearing lists before render
-// and avoid attaching duplicate event listeners when script runs multiple times.
+// Updated: ensure item's DOM structure matches the CSS (badge + .text container)
 
 const ITEMS = [
   { id: 'murder', name: 'Murder Meal', category: 'food', price: 2000 },
@@ -22,7 +21,6 @@ const RESTAURANT_NAME = 'Burger Shot';
 const state = {};
 ITEMS.forEach(i => state[i.id] = 0);
 
-// Grab container references (may be null if DOM not ready)
 let foodList = null;
 let dessertList = null;
 let drinkList = null;
@@ -45,7 +43,10 @@ function createItemRow(item){
   badge.className = 'badge-price';
   badge.textContent = currency(item.price);
 
-  const textCont = document.createElement('div'); // holds name + muted (category small)
+  // text container (important: class "text", used by CSS)
+  const textCont = document.createElement('div');
+  textCont.className = 'text';
+
   const nameDiv = document.createElement('div');
   nameDiv.className = 'name';
   nameDiv.textContent = item.name;
@@ -101,15 +102,14 @@ function createItemRow(item){
 }
 
 function renderLists(){
-  // ensure we have the containers
   if (!foodList || !dessertList || !drinkList) {
     foodList = document.getElementById('food-list');
     dessertList = document.getElementById('dessert-list');
     drinkList = document.getElementById('drink-list');
-    if (!foodList || !dessertList || !drinkList) return; // DOM not ready
+    if (!foodList || !dessertList || !drinkList) return;
   }
 
-  // CLEAR existing content to prevent duplicates
+  // clear to avoid duplicates
   foodList.innerHTML = '';
   dessertList.innerHTML = '';
   drinkList.innerHTML = '';
@@ -209,9 +209,7 @@ function resetAll(){
   if(invoiceArea) invoiceArea.value = '';
 }
 
-// Ensure listeners are only attached once and lists are re-rendered safely
 document.addEventListener('DOMContentLoaded', () => {
-  // attach buttons once
   if (!window.__burgershot_initialized) {
     const copyBtn = document.getElementById('copyInvoice');
     const resetBtn = document.getElementById('resetAll');
@@ -220,7 +218,6 @@ document.addEventListener('DOMContentLoaded', () => {
     window.__burgershot_initialized = true;
   }
 
-  // perform initial render (clears first to avoid duplicates)
   renderLists();
   updateTotals();
 });
