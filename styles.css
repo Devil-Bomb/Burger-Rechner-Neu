@@ -141,8 +141,16 @@ body{
   flex-shrink: 0; /* Badge bleibt sichtbar, verursacht kein unerwartetes Shrinking */
 }
 
-/* Muted text */
-.muted{font-size:12px;color:var(--muted)}
+/* Entferne die kleine Kategorie-Beschriftung innerhalb des Item-Blocks,
+   damit sie nicht neben den Buttons stehen und überlappen.
+   (Bezieht sich nur auf .muted, das sich INSIDE eines .item befindet.) */
+.item .muted {
+  display: none;
+}
+
+/* Falls du die Beschriftung lieber ganz weglassen willst, das reicht.
+   Wenn du die Beschriftung an anderer Stelle behalten willst (z.B. in den Board-Headern),
+   diese Regel ist gezielt auf .item begrenzt und beeinflusst die .muted in .totals-card etc. nicht. */
 
 /* Controls / Buttons - gleiche Größe für +/- */
 .controls{
