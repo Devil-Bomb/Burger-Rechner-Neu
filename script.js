@@ -1,5 +1,7 @@
 // Bestell-Rechner • Burger Shot
-// Restore product names next to price, reserve space for controls, avoid duplicates.
+// Renders items with price badge and product name to its right.
+// Uses absolute-positioned controls + left padding to prevent overlap.
+// Avoids duplicate rendering and attaches controls once.
 
 const ITEMS = [
   { id: 'murder', name: 'Murder Meal', category: 'food', price: 2000 },
@@ -35,7 +37,7 @@ function createItemRow(item){
   row.dataset.category = item.category === 'drink' ? 'Getränk' : item.category === 'dessert' ? 'Dessert' : 'Essen';
   row.dataset.id = item.id;
 
-  // LEFT block: badge + text container
+  // LEFT: badge + text
   const left = document.createElement('div');
   left.className = 'left';
 
@@ -50,6 +52,7 @@ function createItemRow(item){
   nameDiv.className = 'name';
   nameDiv.textContent = item.name;
 
+  // muted kept but hidden by CSS
   const muted = document.createElement('div');
   muted.className = 'muted';
   muted.textContent = item.category === 'drink' ? 'Getränk' : item.category === 'dessert' ? 'Dessert' : 'Essen';
@@ -60,7 +63,7 @@ function createItemRow(item){
   left.appendChild(badge);
   left.appendChild(textCont);
 
-  // CONTROLS
+  // CONTROLS: absolute positioned by CSS
   const controls = document.createElement('div');
   controls.className = 'controls';
 
@@ -108,7 +111,7 @@ function renderLists(){
     if (!foodList || !dessertList || !drinkList) return;
   }
 
-  // clear to avoid duplicates
+  // clear lists to avoid duplicates
   foodList.innerHTML = '';
   dessertList.innerHTML = '';
   drinkList.innerHTML = '';
@@ -209,6 +212,7 @@ function resetAll(){
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  // attach controls once
   if (!window.__burgershot_initialized) {
     const copyBtn = document.getElementById('copyInvoice');
     const resetBtn = document.getElementById('resetAll');
