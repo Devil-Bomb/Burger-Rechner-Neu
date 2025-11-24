@@ -17,8 +17,7 @@ const ITEMS = [
   { id: 'ice', name: 'Shot Ice', category: 'drink', price: 200 },
 ];
 
-// NOTE: Restaurant name used in the invoice text — changed to "BurgerShot" (no space)
-const RESTAURANT_NAME = 'BurgerShot';
+const RESTAURANT_NAME = 'Burger Shot';
 
 const state = {};
 ITEMS.forEach(i => state[i.id] = 0);
