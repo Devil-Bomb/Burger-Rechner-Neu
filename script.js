@@ -1,6 +1,6 @@
 // Bestell-Rechner • Burger Shot
-// Grid-based layout: badge | name | controls
-// Clears lists before render to avoid duplicates. Buttons include -5, -1, count, +1, +5
+// Robust render: left = badge+name (flex:1), right = controls (fixed)
+// Prevent duplicated items by clearing lists before render.
 
 const ITEMS = [
   { id: 'murder', name: 'Murder Meal', category: 'food', price: 2000 },
@@ -36,14 +36,16 @@ function createItemRow(item){
   row.dataset.category = item.category === 'drink' ? 'Getränk' : item.category === 'dessert' ? 'Dessert' : 'Essen';
   row.dataset.id = item.id;
 
-  // badge (column 1)
+  // LEFT: badge + text
+  const left = document.createElement('div');
+  left.className = 'left';
+
   const badge = document.createElement('div');
   badge.className = 'badge-price';
   badge.textContent = currency(item.price);
 
-  // name container (column 2)
   const textCont = document.createElement('div');
-  textCont.className = 'left-text';
+  textCont.className = 'text';
 
   const nameDiv = document.createElement('div');
   nameDiv.className = 'name';
@@ -56,7 +58,10 @@ function createItemRow(item){
   textCont.appendChild(nameDiv);
   textCont.appendChild(muted);
 
-  // controls (column 3)
+  left.appendChild(badge);
+  left.appendChild(textCont);
+
+  // CONTROLS
   const controls = document.createElement('div');
   controls.className = 'controls';
 
@@ -91,11 +96,8 @@ function createItemRow(item){
   controls.appendChild(btnPlus1);
   controls.appendChild(btnPlus5);
 
-  // assemble row in grid order: badge, name, controls
-  row.appendChild(badge);
-  row.appendChild(textCont);
+  row.appendChild(left);
   row.appendChild(controls);
-
   return row;
 }
 
@@ -107,7 +109,7 @@ function renderLists(){
     if (!foodList || !dessertList || !drinkList) return;
   }
 
-  // clear existing nodes to avoid duplicates/old layout
+  // clear lists to avoid duplicates
   foodList.innerHTML = '';
   dessertList.innerHTML = '';
   drinkList.innerHTML = '';
