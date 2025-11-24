@@ -67,7 +67,7 @@ body{
   border: 1px solid rgba(255,255,255,0.015);
 }
 
-/* ITEMS: Robust FLEX layout (left = badge+name; right = controls) */
+/* ITEMS: Flex layout (left = badge+name; right = controls) */
 .items{display:flex;flex-direction:column;gap:10px}
 .item{
   display:flex;
@@ -81,23 +81,21 @@ body{
   position:relative;
   z-index:1;
   min-width: 0;
-  overflow: visible; /* ensure controls visible */
+  overflow: visible;
 }
 .item:hover{
   border-color: var(--border-strong);
   background: #101518;
 }
 
-/* LEFT area: badge + text (flex:1 so it shrinks, min-width:0 critical) */
+/* LEFT area */
 .left{
   display:flex;
   align-items:center;
   gap:12px;
   flex: 1 1 auto;
-  min-width: 0; /* critical to allow shrinking */
+  min-width: 0;
 }
-
-/* price badge */
 .badge-price{
   background:#0c2a31;
   padding:6px 10px;
@@ -109,8 +107,6 @@ body{
   flex: 0 0 auto;
   white-space:nowrap;
 }
-
-/* text container inside left */
 .left .text{
   display:flex;
   flex-direction:column;
@@ -119,8 +115,6 @@ body{
   flex: 1 1 auto;
   overflow: hidden;
 }
-
-/* product name: allow up to 2 lines, but never disappear */
 .name{
   font-weight:700;
   color: var(--text);
@@ -135,21 +129,19 @@ body{
   -webkit-box-orient:vertical;
 }
 
-/* hide small category */
+/* hide category */
 .item .muted { display:none; }
 
-/* CONTROLS (right): fixed width, won't shrink, always visible */
+/* CONTROLS (right) */
 .controls{
   display:flex;
   align-items:center;
   gap:8px;
-  flex: 0 0 auto;       /* do not shrink */
+  flex: 0 0 auto;
   justify-content:flex-end;
   white-space:nowrap;
   z-index:4;
 }
-
-/* BUTTONS: compact & high contrast */
 .btn{
   border-radius:999px;
   border:none;
@@ -162,26 +154,10 @@ body{
   font-size:13px;
   padding:6px 9px;
 }
-
-/* minus (red) */
-.btn.minus{
-  background: linear-gradient(180deg,#9a2f3a,#6b1a22);
-  padding:6px 8px;
-}
-
-/* plus (green) - visible */
-.btn.plus{
-  background: linear-gradient(180deg,#1fc07f,#0b8e57);
-  color:#fff;
-  padding:6px 10px;
-  border:1px solid rgba(20,192,120,0.12);
-  box-shadow: 0 4px 12px rgba(11,142,87,0.06);
-}
-
-/* small variant */
+.btn.minus{ background: linear-gradient(180deg,#9a2f3a,#6b1a22); padding:6px 8px; }
+.btn.plus{ background: linear-gradient(180deg,#1fc07f,#0b8e57); padding:6px 10px; color:#fff; border:1px solid rgba(20,192,120,0.12); box-shadow:0 4px 12px rgba(11,142,87,0.06); }
 .btn.small{ padding:5px 7px; font-size:12px; }
 
-/* count badge (between - and +) */
 .count{
   display:inline-flex;
   align-items:center;
