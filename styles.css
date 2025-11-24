@@ -9,8 +9,7 @@
   --accent-2: #0ea5a2;
   --border-subtle: rgba(255,255,255,0.04);
   --border-strong: rgba(255,255,255,0.06);
-  --btn-font: 13px;
-  --container-width: 1500px; /* slightly larger to fit controls on 100% zoom */
+  --container-width: 1180px; /* tuned for 1366px wide screens */
 }
 
 /* Basics */
@@ -23,34 +22,34 @@ body{
   display:flex;
   align-items:flex-start;
   justify-content:center;
-  padding:36px;
+  padding:28px;
 }
 
-/* Container - increased width so controls remain visible at 100% */
+/* Container */
 .container{
   width:var(--container-width);
   max-width:98%;
   border-radius:12px;
-  padding:22px;
+  padding:18px;
   background: var(--card-bg);
   overflow:visible;
 }
 
 /* Header */
-.topbar{ margin-bottom:16px; display:flex; align-items:center; gap:12px; }
-.title h1{margin:0;font-size:20px}
-.subtitle{margin:6px 0 0 0;color:var(--muted);font-size:13px}
+.topbar{ margin-bottom:12px; display:flex; align-items:center; gap:12px; }
+.title h1{margin:0;font-size:18px}
+.subtitle{margin:4px 0 0 0;color:var(--muted);font-size:13px}
 
 /* Boards */
-.boards-outer{ display:flex; justify-content:center; margin-bottom:18px; padding-bottom:18px; }
-.boards{ display:flex; gap:20px; width:100%; align-items:flex-start; justify-content:center; }
+.boards-outer{ display:flex; justify-content:center; margin-bottom:14px; padding-bottom:14px; }
+.boards{ display:flex; gap:16px; width:100%; align-items:flex-start; justify-content:center; }
 
 .board{
-  width:400px;
+  width:360px;
   background: var(--card-bg);
-  padding:14px;
+  padding:12px;
   border-radius:12px;
-  min-height:420px;
+  min-height:380px;
   border: 1px solid var(--border-subtle);
   position:relative;
   z-index:1;
@@ -58,7 +57,7 @@ body{
   flex-direction:column;
 }
 .board h2{
-  margin:0 0 12px 0;
+  margin:0 0 10px 0;
   font-size:13px;
   color:var(--muted);
   letter-spacing:2px;
@@ -69,11 +68,11 @@ body{
 }
 
 /* Items: grid layout badge | name | controls */
-/* Middle column minmax increased to give more room at 100% */
-.items{display:flex;flex-direction:column;gap:12px}
+/* Middle column minmax ensures name never collapses to 0 */
+.items{display:flex;flex-direction:column;gap:10px}
 .item{
   display:grid;
-  grid-template-columns: auto minmax(240px, 1fr) auto;
+  grid-template-columns: auto minmax(200px, 1fr) 170px;
   align-items:center;
   gap:12px;
   padding:12px;
@@ -84,18 +83,18 @@ body{
   position:relative;
   z-index:1;
   min-width: 0;
-  overflow: visible; /* allow controls to be visible even if they extend slightly */
+  overflow: hidden;
 }
 .item:hover{
   border-color: var(--border-strong);
   background: #101518;
 }
 
-/* badge - left column */
+/* price badge (left) */
 .badge-price{
   grid-column: 1 / 2;
   background:#0c2a31;
-  padding:6px 12px;
+  padding:6px 10px;
   border-radius:999px;
   color:var(--accent-2);
   font-weight:700;
@@ -105,7 +104,7 @@ body{
   white-space:nowrap;
 }
 
-/* name container - middle column */
+/* name container (middle) */
 .left-text{
   grid-column: 2 / 3;
   min-width:0;
@@ -115,7 +114,7 @@ body{
   overflow:hidden;
 }
 
-/* Product name: 2 lines on desktop */
+/* product name - up to two lines */
 .name{
   font-weight:700;
   color: var(--text);
@@ -130,25 +129,24 @@ body{
   -webkit-box-orient:vertical;
 }
 
-/* small category hidden */
-.item .muted { display: none; }
+/* remove small category label */
+.item .muted { display:none; }
 
-/* controls - right column; fixed and compact */
+/* controls (right) fixed width so they never overlap middle */
 .controls{
   grid-column: 3 / 4;
   display:flex;
   align-items:center;
+  justify-content:flex-end;
   gap:8px;
-  flex: 0 0 auto;
-  justify-self:end;
   white-space:nowrap;
-  z-index:6; /* ensure controls sit above other content */
   flex-wrap:nowrap;
+  z-index:2;
 }
 
-/* Button base - compact so everything fits */
+/* button base */
 .btn{
-  padding:6px 8px;
+  padding:6px 10px;
   border-radius:999px;
   border:none;
   color:white;
@@ -157,59 +155,48 @@ body{
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  background: linear-gradient(180deg,#11181a,#0b1416);
-  font-size: var(--btn-font);
-  box-shadow: 0 2px 0 rgba(0,0,0,0.25) inset;
+  font-size:13px;
 }
 
-/* minus buttons (red) */
-.btn.minus{
-  background: linear-gradient(180deg,#9a2f3a,#6b1a22);
-  box-shadow: 0 2px 6px rgba(154,47,58,0.12);
-  padding:6px 8px;
-}
+/* minus (red) */
+.btn.minus{ background: linear-gradient(180deg,#9a2f3a,#6b1a22); padding:6px 8px; }
 
-/* plus buttons (green) - make brighter and slightly bigger to be noticeable */
+/* plus (green) - bright and visible */
 .btn.plus{
-  background: linear-gradient(180deg,#20c07f,#0b8e57);
-  color: #fff;
-  box-shadow: 0 6px 18px rgba(11,142,87,0.12);
+  background: linear-gradient(180deg,#1fc07f,#0b8e57);
   padding:6px 10px;
-  border: 1px solid rgba(20,192,120,0.15);
+  color:#fff;
+  box-shadow: 0 6px 18px rgba(11,142,87,0.08);
+  border: 1px solid rgba(20,192,120,0.12);
 }
 
 /* small variant */
 .btn.small{ padding:5px 7px; font-size:12px; }
-.btn.small.plus{ padding:5px 8px; }
-.btn.small.minus{ padding:5px 8px; }
 
-/* count badge between - and + (high contrast) */
+/* count - high contrast badge between buttons */
 .count{
   display:inline-flex;
   align-items:center;
   justify-content:center;
   min-width:36px;
   height:30px;
-  padding:0 10px;
+  padding:0 8px;
   border-radius:999px;
-  background: rgba(0,0,0,0.45);
-  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(0,0,0,0.5);
+  border: 1px solid rgba(255,255,255,0.04);
   color: var(--text);
   font-weight:800;
   font-size:13px;
-  margin:0 2px;
-  box-shadow: 0 1px 0 rgba(255,255,255,0.02) inset;
-  white-space:nowrap;
 }
 
-/* Bottom area (made slightly larger) */
+/* Bottom area */
 .bottom-bar{
-  margin-top:22px;
+  margin-top:18px;
   display:flex;
   gap:18px;
   align-items:flex-start;
   justify-content:space-between;
-  padding:18px;
+  padding:14px;
   border-radius:12px;
   background: var(--card-bg);
   border: 1px solid var(--border-subtle);
@@ -218,7 +205,7 @@ body{
 }
 
 /* Totals */
-.left-panel{ display:flex; flex-direction:column; gap:10px; min-width:520px; }
+.left-panel{ display:flex; flex-direction:column; gap:10px; min-width:480px; }
 .totals-card{ background: var(--panel-bg); padding:12px; border-radius:10px; border: 1px solid var(--border-subtle); }
 .totals-row{display:flex;gap:18px;align-items:center}
 .totals-row .muted{color:var(--muted);font-size:13px}
@@ -243,16 +230,11 @@ body{
   font-weight:700;
 }
 
-/* Responsive adjustments */
-@media (max-width:1400px){
-  :root{ --container-width: 1200px; }
-}
+/* Responsive tuning */
 @media (max-width:1200px){
-  .container{padding:14px}
-  .board{width:340px}
-  :root{ --btn-font: 12px; }
-  .item{ grid-template-columns: auto minmax(140px, 1fr) auto; }
-  .name{ font-size:13px; -webkit-line-clamp:2; }
+  :root{ --container-width: 1040px; }
+  .item{ grid-template-columns: auto minmax(160px, 1fr) 150px; }
+  .left-panel{ min-width:360px; }
 }
 @media (max-width:980px){
   .boards{flex-direction:column;align-items:stretch}
@@ -260,8 +242,8 @@ body{
   .bottom-bar{flex-direction:column;align-items:stretch}
   .left-panel{width:100%}
   .right-panel{width:100%;align-items:stretch}
-  /* on small screens clamp to 1 line so names don't push controls */
   .item{ grid-template-columns: auto 1fr auto; }
-  .name{ -webkit-line-clamp:1; font-size:13px; }
+  .name{ -webkit-line-clamp:1; }
+  .controls{ gap:6px; }
   .btn{ padding:6px 8px; font-size:12px; }
 }
