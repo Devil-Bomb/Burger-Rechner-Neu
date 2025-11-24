@@ -9,10 +9,9 @@
   --red: #9a2f3a;
   --green: #1fc07f;
 
-  /* Layout tuning — passe diese Werte an, falls auf deiner Auflösung noch etwas fehlt */
   --container-width: 1280px;
-  --board-width: 420px;     /* alle Boards gleich breit */
-  --controls-width: 160px;  /* Platz für Buttons/Zähler */
+  --board-width: 420px;
+  --controls-width: 160px;
   --badge-width: 72px;
 }
 
@@ -20,7 +19,7 @@
 *{box-sizing:border-box}
 html,body{height:100%;margin:0}
 body{
-  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+  font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
   background: var(--bg);
   color: var(--text);
   display:flex;
@@ -39,11 +38,6 @@ body{
   overflow:visible;
 }
 
-/* Header */
-.topbar{ margin-bottom:12px; display:flex; align-items:center; gap:12px; }
-.title h1{margin:0;font-size:18px}
-.subtitle{margin:4px 0 0 0;color:var(--muted);font-size:13px}
-
 /* Boards */
 .boards{ display:flex; gap:18px; width:100%; align-items:flex-start; justify-content:center; }
 .board{
@@ -56,22 +50,13 @@ body{
   display:flex;
   flex-direction:column;
 }
-.board h2{
-  margin:0 0 12px 0;
-  font-size:13px;
-  color:var(--muted);
-  letter-spacing:2px;
-  padding:8px 10px;
-  border-radius:8px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.01));
-  border: 1px solid rgba(255,255,255,0.015);
-}
 
 /* Items */
 .items{ display:flex; flex-direction:column; gap:12px; }
 .item{
   display:flex;
   align-items:center;
+  justify-content:space-between; /* ensures left and controls stay inside */
   gap:12px;
   padding:12px;
   border-radius:10px;
@@ -82,13 +67,13 @@ body{
 .item:hover{ background:#0f1516; border-color: rgba(255,255,255,0.035); }
 
 /* LEFT: badge + name area */
-/* Fixierte Breite für left damit Produktname in einer Zeile bleibt */
+/* Use flexible left area (shrinks correctly) instead of calc() so layout is robust */
 .left{
   display:flex;
   align-items:center;
   gap:12px;
-  flex: 0 0 calc(var(--board-width) - var(--controls-width) - 36px);
-  min-width: 0;
+  flex: 1 1 auto;   /* flexible, but min-width prevents collapsing content */
+  min-width: 0;     /* critical so the text can truncate instead of pushing out */
 }
 
 /* price badge */
@@ -113,30 +98,30 @@ body{
   gap:4px;
   min-width:0;
   flex: 1 1 auto;
-  overflow: visible;
+  overflow: hidden;
 }
 
-/* PRODUCT NAME: single line, smaller font to fit typical names */
+/* PRODUCT NAME: single-line, ellipsis if not enough space */
 .name{
   font-weight:700;
   color: var(--text);
   font-size:14px;
   line-height:1.2;
   margin:0;
-  white-space:nowrap;      /* single line */
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 
 /* hide small category label */
 .item .muted{ display:none; }
 
-/* CONTROLS (rechts) - feste Reservierung damit sie nie überlappen */
+/* CONTROLS (right) - fixed, do not shrink, always stay inside item */
 .controls{
   display:flex;
   align-items:center;
   gap:8px;
-  flex: 0 0 var(--controls-width);
+  flex: 0 0 auto; /* keeps controls width to their content, prevents overflow */
   justify-content:flex-end;
   white-space:nowrap;
   z-index:4;
@@ -174,11 +159,7 @@ body{
   font-size:13px;
 }
 
-/* ---------------------------
-   BOTTOM BOX (Totals + Invoice)
-   Wiederhergestellt wie zuvor
-   --------------------------- */
-
+/* Bottom area (restore previous look) */
 .bottom-bar{
   margin-top:20px;
   display:flex;
@@ -235,7 +216,7 @@ body{
 /* Responsive tuning */
 @media (max-width:1200px){
   :root{ --container-width: 1040px; --board-width: 320px; --controls-width: 140px; --badge-width:68px; }
-  .left{ flex: 0 0 calc(var(--board-width) - var(--controls-width) - 36px); }
+  .left{ flex: 1 1 auto; }
   .name{ font-size:13px; }
 }
 @media (max-width:980px){
