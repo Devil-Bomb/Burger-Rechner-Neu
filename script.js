@@ -1,6 +1,6 @@
 // Bestell-Rechner • Burger Shot
-// Robust render: left = badge+name (flex:1), right = controls (fixed)
-// Prevent duplicated items by clearing lists before render.
+// Left = badge+single-line name (ellipsis if too long), right = fixed-width controls.
+// Clears lists before render to avoid duplicates.
 
 const ITEMS = [
   { id: 'murder', name: 'Murder Meal', category: 'food', price: 2000 },
