@@ -9,11 +9,11 @@
   --red: #9a2f3a;
   --green: #1fc07f;
 
-  /* Layout tuned per Variante A */
-  --container-width: 1360px; /* insgesamt etwas breiter, damit 3 Boards Platz haben */
-  --board-width: 440px;      /* alle Boards gleich breit (erhöht, damit Namen in einer Zeile passen) */
-  --controls-width: 160px;   /* Platz für Buttons/Zähler */
-  --badge-width: 72px;
+  /* minimal widen + slightly smaller buttons per your request */
+  --container-width: 1380px; /* slightly larger so 3 boards fit comfortably */
+  --board-width: 450px;      /* increased so longer names fit on one line */
+  --controls-width: 140px;   /* slightly smaller control area */
+  --badge-width: 68px;       /* a bit narrower badge */
 }
 
 /* Reset / Basics */
@@ -57,7 +57,7 @@ body{
 .item{
   display:flex;
   align-items:center;
-  justify-content:space-between; /* left and controls stay inside */
+  justify-content:space-between;
   gap:12px;
   padding:12px;
   border-radius:10px;
@@ -72,7 +72,7 @@ body{
   display:flex;
   align-items:center;
   gap:12px;
-  flex: 1 1 auto;   /* flexible so it shrinks properly and leaves controls inside */
+  flex: 1 1 auto;
   min-width: 0;
 }
 
@@ -101,14 +101,14 @@ body{
   overflow: hidden;
 }
 
-/* PRODUCT NAME: single-line, show full if space allows; ellipsis if not */
+/* PRODUCT NAME: keep single-line; board widened so common names fit */
 .name{
   font-weight:700;
   color: var(--text);
   font-size:14px;
   line-height:1.2;
   margin:0;
-  white-space:nowrap;     /* single-line */
+  white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
 }
@@ -127,12 +127,12 @@ body{
   z-index:4;
 }
 
-/* Make all item buttons the same size */
+/* Make item buttons smaller / uniform */
 .controls .btn{
-  width:36px;             /* fixed width */
-  height:34px;            /* fixed height */
-  padding:0;              /* center text using line-height */
-  line-height:34px;
+  width:32px;
+  height:32px;
+  padding:0;
+  line-height:32px;
   border-radius:999px;
   border:none;
   color:white;
@@ -141,12 +141,12 @@ body{
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  font-size:13px;
+  font-size:12px;
   box-sizing:border-box;
 }
 
-/* Small variant still allowed but same visual size */
-.controls .btn.small{ width:36px; height:34px; font-size:13px; }
+/* Small variant uses same visual size */
+.controls .btn.small{ width:32px; height:32px; font-size:12px; }
 
 /* Minus (red) */
 .controls .btn.minus{
@@ -165,8 +165,8 @@ body{
 
 /* Count badge - match height and look consistent */
 .controls .count{
-  min-width:36px;
-  height:34px;
+  min-width:34px;
+  height:32px;
   display:inline-flex;
   align-items:center;
   justify-content:center;
@@ -175,7 +175,7 @@ body{
   border: 1px solid rgba(255,255,255,0.04);
   color: var(--text);
   font-weight:800;
-  font-size:13px;
+  font-size:12px;
   padding:0 6px;
   box-sizing:border-box;
 }
@@ -239,7 +239,7 @@ body{
   :root{ --container-width: 1040px; --board-width: 320px; --controls-width: 140px; --badge-width:68px; }
   .left{ flex: 1 1 auto; }
   .name{ font-size:13px; }
-  .controls .btn, .controls .count{ height:32px; width:32px; line-height:32px; }
+  .controls .btn, .controls .count{ height:28px; width:28px; line-height:28px; }
 }
 @media (max-width:980px){
   .boards{ flex-direction:column; align-items:stretch; gap:12px; }
@@ -247,5 +247,5 @@ body{
   :root{ --controls-width: 140px; --badge-width:68px; }
   .left{ flex:1 1 200px; }
   .name{ font-size:13px; }
-  .controls .btn, .controls .count{ height:32px; width:32px; line-height:32px; }
+  .controls .btn, .controls .count{ height:28px; width:28px; line-height:28px; }
 }
