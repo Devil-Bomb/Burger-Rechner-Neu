@@ -9,9 +9,10 @@
   --red: #9a2f3a;
   --green: #1fc07f;
 
-  --container-width: 1280px;
-  --board-width: 420px;
-  --controls-width: 160px;
+  /* Layout tuned per Variante A */
+  --container-width: 1360px; /* insgesamt etwas breiter, damit 3 Boards Platz haben */
+  --board-width: 440px;      /* alle Boards gleich breit (erhöht, damit Namen in einer Zeile passen) */
+  --controls-width: 160px;   /* Platz für Buttons/Zähler */
   --badge-width: 72px;
 }
 
@@ -56,7 +57,7 @@ body{
 .item{
   display:flex;
   align-items:center;
-  justify-content:space-between; /* ensures left and controls stay inside */
+  justify-content:space-between; /* left and controls stay inside */
   gap:12px;
   padding:12px;
   border-radius:10px;
@@ -67,13 +68,12 @@ body{
 .item:hover{ background:#0f1516; border-color: rgba(255,255,255,0.035); }
 
 /* LEFT: badge + name area */
-/* Use flexible left area (shrinks correctly) instead of calc() so layout is robust */
 .left{
   display:flex;
   align-items:center;
   gap:12px;
-  flex: 1 1 auto;   /* flexible, but min-width prevents collapsing content */
-  min-width: 0;     /* critical so the text can truncate instead of pushing out */
+  flex: 1 1 auto;   /* flexible so it shrinks properly and leaves controls inside */
+  min-width: 0;
 }
 
 /* price badge */
@@ -101,34 +101,38 @@ body{
   overflow: hidden;
 }
 
-/* PRODUCT NAME: single-line, ellipsis if not enough space */
+/* PRODUCT NAME: single-line, show full if space allows; ellipsis if not */
 .name{
   font-weight:700;
   color: var(--text);
   font-size:14px;
   line-height:1.2;
   margin:0;
-  white-space:nowrap;
+  white-space:nowrap;     /* single-line */
   overflow:hidden;
   text-overflow:ellipsis;
 }
 
-/* hide small category label */
+/* hide small category */
 .item .muted{ display:none; }
 
-/* CONTROLS (right) - fixed, do not shrink, always stay inside item */
+/* CONTROLS (right) - fixed reservation so they never overlap left */
 .controls{
   display:flex;
   align-items:center;
   gap:8px;
-  flex: 0 0 auto; /* keeps controls width to their content, prevents overflow */
+  flex: 0 0 var(--controls-width);
   justify-content:flex-end;
   white-space:nowrap;
   z-index:4;
 }
 
-/* Buttons */
-.btn{
+/* Make all item buttons the same size */
+.controls .btn{
+  width:36px;             /* fixed width */
+  height:34px;            /* fixed height */
+  padding:0;              /* center text using line-height */
+  line-height:34px;
   border-radius:999px;
   border:none;
   color:white;
@@ -138,16 +142,31 @@ body{
   align-items:center;
   justify-content:center;
   font-size:13px;
-  padding:6px 10px;
+  box-sizing:border-box;
 }
-.btn.minus{ background: linear-gradient(180deg,var(--red),#6b1a22); padding:6px 8px;}
-.btn.plus{ background: linear-gradient(180deg,var(--green),#0b8e57); padding:6px 10px; color:#fff; box-shadow: 0 4px 12px rgba(11,142,87,0.06); border:1px solid rgba(20,192,120,0.12); }
-.btn.small{ padding:5px 7px; font-size:12px; }
 
-/* Count badge */
-.count{
+/* Small variant still allowed but same visual size */
+.controls .btn.small{ width:36px; height:34px; font-size:13px; }
+
+/* Minus (red) */
+.controls .btn.minus{
+  background: linear-gradient(180deg,var(--red),#6b1a22);
+  padding:0;
+}
+
+/* Plus (green) */
+.controls .btn.plus{
+  background: linear-gradient(180deg,var(--green),#0b8e57);
+  color:#fff;
+  padding:0;
+  border: 1px solid rgba(20,192,120,0.12);
+  box-shadow: 0 4px 12px rgba(11,142,87,0.06);
+}
+
+/* Count badge - match height and look consistent */
+.controls .count{
   min-width:36px;
-  height:30px;
+  height:34px;
   display:inline-flex;
   align-items:center;
   justify-content:center;
@@ -157,6 +176,8 @@ body{
   color: var(--text);
   font-weight:800;
   font-size:13px;
+  padding:0 6px;
+  box-sizing:border-box;
 }
 
 /* Bottom area (restore previous look) */
@@ -218,6 +239,7 @@ body{
   :root{ --container-width: 1040px; --board-width: 320px; --controls-width: 140px; --badge-width:68px; }
   .left{ flex: 1 1 auto; }
   .name{ font-size:13px; }
+  .controls .btn, .controls .count{ height:32px; width:32px; line-height:32px; }
 }
 @media (max-width:980px){
   .boards{ flex-direction:column; align-items:stretch; gap:12px; }
@@ -225,4 +247,5 @@ body{
   :root{ --controls-width: 140px; --badge-width:68px; }
   .left{ flex:1 1 200px; }
   .name{ font-size:13px; }
+  .controls .btn, .controls .count{ height:32px; width:32px; line-height:32px; }
 }
