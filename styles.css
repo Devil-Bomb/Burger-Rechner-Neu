@@ -9,7 +9,7 @@
   --accent-2: #0ea5a2;
   --border-subtle: rgba(255,255,255,0.04);
   --border-strong: rgba(255,255,255,0.06);
-  --container-width: 1180px; /* tuned for 1366px wide screens */
+  --container-width: 1180px;
 }
 
 /* Basics */
@@ -67,12 +67,10 @@ body{
   border: 1px solid rgba(255,255,255,0.015);
 }
 
-/* Items: grid layout badge | name | controls */
-/* Middle column minmax ensures name never collapses to 0 */
+/* ITEMS: Robust FLEX layout (left = badge+name; right = controls) */
 .items{display:flex;flex-direction:column;gap:10px}
 .item{
-  display:grid;
-  grid-template-columns: auto minmax(200px, 1fr) 170px;
+  display:flex;
   align-items:center;
   gap:12px;
   padding:12px;
@@ -83,16 +81,24 @@ body{
   position:relative;
   z-index:1;
   min-width: 0;
-  overflow: hidden;
+  overflow: visible; /* ensure controls visible */
 }
 .item:hover{
   border-color: var(--border-strong);
   background: #101518;
 }
 
-/* price badge (left) */
+/* LEFT area: badge + text (flex:1 so it shrinks, min-width:0 critical) */
+.left{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex: 1 1 auto;
+  min-width: 0; /* critical to allow shrinking */
+}
+
+/* price badge */
 .badge-price{
-  grid-column: 1 / 2;
   background:#0c2a31;
   padding:6px 10px;
   border-radius:999px;
@@ -100,21 +106,21 @@ body{
   font-weight:700;
   font-size:13px;
   border:1px solid rgba(255,255,255,0.02);
-  line-height:1;
+  flex: 0 0 auto;
   white-space:nowrap;
 }
 
-/* name container (middle) */
-.left-text{
-  grid-column: 2 / 3;
-  min-width:0;
+/* text container inside left */
+.left .text{
   display:flex;
   flex-direction:column;
   gap:4px;
-  overflow:hidden;
+  min-width:0;
+  flex: 1 1 auto;
+  overflow: hidden;
 }
 
-/* product name - up to two lines */
+/* product name: allow up to 2 lines, but never disappear */
 .name{
   font-weight:700;
   color: var(--text);
@@ -129,24 +135,22 @@ body{
   -webkit-box-orient:vertical;
 }
 
-/* remove small category label */
+/* hide small category */
 .item .muted { display:none; }
 
-/* controls (right) fixed width so they never overlap middle */
+/* CONTROLS (right): fixed width, won't shrink, always visible */
 .controls{
-  grid-column: 3 / 4;
   display:flex;
   align-items:center;
-  justify-content:flex-end;
   gap:8px;
+  flex: 0 0 auto;       /* do not shrink */
+  justify-content:flex-end;
   white-space:nowrap;
-  flex-wrap:nowrap;
-  z-index:2;
+  z-index:4;
 }
 
-/* button base */
+/* BUTTONS: compact & high contrast */
 .btn{
-  padding:6px 10px;
   border-radius:999px;
   border:none;
   color:white;
@@ -156,24 +160,28 @@ body{
   align-items:center;
   justify-content:center;
   font-size:13px;
+  padding:6px 9px;
 }
 
 /* minus (red) */
-.btn.minus{ background: linear-gradient(180deg,#9a2f3a,#6b1a22); padding:6px 8px; }
+.btn.minus{
+  background: linear-gradient(180deg,#9a2f3a,#6b1a22);
+  padding:6px 8px;
+}
 
-/* plus (green) - bright and visible */
+/* plus (green) - visible */
 .btn.plus{
   background: linear-gradient(180deg,#1fc07f,#0b8e57);
-  padding:6px 10px;
   color:#fff;
-  box-shadow: 0 6px 18px rgba(11,142,87,0.08);
-  border: 1px solid rgba(20,192,120,0.12);
+  padding:6px 10px;
+  border:1px solid rgba(20,192,120,0.12);
+  box-shadow: 0 4px 12px rgba(11,142,87,0.06);
 }
 
 /* small variant */
 .btn.small{ padding:5px 7px; font-size:12px; }
 
-/* count - high contrast badge between buttons */
+/* count badge (between - and +) */
 .count{
   display:inline-flex;
   align-items:center;
@@ -230,11 +238,10 @@ body{
   font-weight:700;
 }
 
-/* Responsive tuning */
+/* Responsive */
 @media (max-width:1200px){
   :root{ --container-width: 1040px; }
-  .item{ grid-template-columns: auto minmax(160px, 1fr) 150px; }
-  .left-panel{ min-width:360px; }
+  .board{width:320px}
 }
 @media (max-width:980px){
   .boards{flex-direction:column;align-items:stretch}
@@ -242,7 +249,6 @@ body{
   .bottom-bar{flex-direction:column;align-items:stretch}
   .left-panel{width:100%}
   .right-panel{width:100%;align-items:stretch}
-  .item{ grid-template-columns: auto 1fr auto; }
   .name{ -webkit-line-clamp:1; }
   .controls{ gap:6px; }
   .btn{ padding:6px 8px; font-size:12px; }
