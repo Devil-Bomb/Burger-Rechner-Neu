@@ -1,5 +1,5 @@
 // Bestell-Rechner • Burger Shot
-// Left = badge+single-line name (ellipsis if too long), right = fixed-width controls.
+// Left = badge + single-line name, right = fixed controls
 // Clears lists before render to avoid duplicates.
 
 const ITEMS = [
