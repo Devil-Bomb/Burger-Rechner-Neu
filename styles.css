@@ -1,22 +1,22 @@
 :root{
   --bg: #071018;
   --card-bg: #0b1113;
-  --item-box-bg: #0f1416;
+  --item-bg: #0f1416;
   --panel-bg: #0e1416;
   --text: #e6eef6;
   --muted: #97a6b2;
   --accent: #12b886;
-  --accent-2: #0ea5a2;
-  --border-subtle: rgba(255,255,255,0.04);
+  --red: #9a2f3a;
+  --green: #1fc07f;
 
-  /* Tunable layout vars — increase if you want more name space */
-  --container-width: 1360px; /* overall container width */
-  --board-width: 420px;      /* all boards equal width */
-  --controls-width: 180px;   /* reserved width for buttons & count */
-  --badge-width: 86px;       /* approximate width for price badge + gap */
+  /* Layout tuning - adjust these if you want more/less space */
+  --container-width: 1360px;
+  --board-width: 440px;     /* all boards equal width */
+  --controls-width: 200px;  /* reserved width for buttons and count */
+  --badge-width: 86px;
 }
 
-/* Basics */
+/* Reset / basics */
 *{box-sizing:border-box}
 html,body{height:100%;margin:0}
 body{
@@ -29,7 +29,7 @@ body{
   padding:28px;
 }
 
-/* Container */
+/* Page container */
 .container{
   width:var(--container-width);
   max-width:98%;
@@ -39,67 +39,41 @@ body{
   overflow:visible;
 }
 
-/* Header */
-.topbar{ margin-bottom:12px; display:flex; align-items:center; gap:12px; }
-.title h1{margin:0;font-size:18px}
-.subtitle{margin:4px 0 0 0;color:var(--muted);font-size:13px}
-
-/* Boards layout */
-.boards-outer{ display:flex; justify-content:center; margin-bottom:14px; padding-bottom:14px; }
+/* Boards */
 .boards{ display:flex; gap:18px; width:100%; align-items:flex-start; justify-content:center; }
-
 .board{
   width:var(--board-width);
   background: var(--card-bg);
   padding:12px;
   border-radius:12px;
   min-height:420px;
-  border: 1px solid var(--border-subtle);
-  position:relative;
-  z-index:1;
+  border: 1px solid rgba(255,255,255,0.03);
   display:flex;
   flex-direction:column;
 }
-.board h2{
-  margin:0 0 12px 0;
-  font-size:13px;
-  color:var(--muted);
-  letter-spacing:2px;
-  padding:8px 10px;
-  border-radius:8px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.01));
-  border: 1px solid rgba(255,255,255,0.015);
-}
 
-/* Items — left = badge+name, right = fixed controls */
-.items{display:flex;flex-direction:column;gap:12px}
+/* Items: left (badge+name) flexible; right controls fixed */
+.items{ display:flex; flex-direction:column; gap:12px; }
 .item{
   display:flex;
   align-items:center;
   gap:12px;
   padding:12px;
   border-radius:10px;
-  background: var(--item-box-bg);
-  border: 1px solid var(--border-subtle);
-  transition: border-color .12s ease, background .12s ease;
-  position:relative;
-  z-index:1;
-  min-width: 0;
-  overflow: visible;
+  background: var(--item-bg);
+  border: 1px solid rgba(255,255,255,0.02);
+  min-width:0;
 }
-.item:hover{
-  border-color: rgba(255,255,255,0.03);
-  background: #0f1516;
-}
+.item:hover{ background:#0f1516; border-color: rgba(255,255,255,0.035); }
 
-/* LEFT: badge + text; give it a healthy base width so names fit single-line */
+/* LEFT: badge + text container */
+/* Important: flex-basis formula gives the name more guaranteed space so it fits in one line */
 .left{
   display:flex;
   align-items:center;
   gap:12px;
-  /* base width = board width - controls - paddings; keeps names on one line more often */
   flex: 1 1 calc(var(--board-width) - var(--controls-width) - 36px);
-  min-width: 0; /* critical to allow proper flex shrink */
+  min-width: 0; /* allows flex items to shrink correctly */
 }
 
 /* price badge */
@@ -107,42 +81,42 @@ body{
   background:#0c2a31;
   padding:6px 10px;
   border-radius:999px;
-  color:var(--accent-2);
+  color:var(--accent);
   font-weight:700;
   font-size:13px;
   border:1px solid rgba(255,255,255,0.02);
   flex: 0 0 auto;
   white-space:nowrap;
-  width: var(--badge-width);
+  width:var(--badge-width);
   text-align:center;
 }
 
-/* text container */
+/* text container next to badge */
 .left .text{
   display:flex;
   flex-direction:column;
   gap:4px;
   min-width:0;
   flex: 1 1 auto;
-  overflow: hidden;
+  overflow:hidden;
 }
 
-/* PRODUCT NAME: single line only (no wrap), ellipsis if too long */
+/* PRODUCT NAME - always single line, ellipsis if too long */
 .name{
   font-weight:700;
   color: var(--text);
   font-size:15px;
   line-height:1.2;
   margin:0;
-  white-space:nowrap;           /* always single line */
+  white-space:nowrap;        /* single-line */
   overflow:hidden;
-  text-overflow:ellipsis;      /* show ellipsis if not fitting */
+  text-overflow:ellipsis;   /* show "..." if not fitting */
 }
 
-/* hide small category label */
-.item .muted { display:none; }
+/* small category (hidden) */
+.item .muted{ display:none; }
 
-/* CONTROLS: fixed reservation so they never overlap name */
+/* CONTROLS (right) - fixed reserved width so they never overlap left area */
 .controls{
   display:flex;
   align-items:center;
@@ -167,21 +141,29 @@ body{
   padding:6px 10px;
 }
 
-/* minus (red) */
-.btn.minus{ background: linear-gradient(180deg,#9a2f3a,#6b1a22); padding:6px 8px; }
+/* Minus (red) */
+.btn.minus{
+  background: linear-gradient(180deg,var(--red),#6b1a22);
+  padding:6px 8px;
+}
 
-/* plus (green) */
-.btn.plus{ background: linear-gradient(180deg,#1fc07f,#0b8e57); padding:6px 10px; color:#fff; border:1px solid rgba(20,192,120,0.12); box-shadow:0 4px 12px rgba(11,142,87,0.06); }
+/* Plus (green) - bright and visible */
+.btn.plus{
+  background: linear-gradient(180deg,var(--green),#0b8e57);
+  padding:6px 10px;
+  color:#fff;
+  box-shadow: 0 4px 12px rgba(11,142,87,0.06);
+  border: 1px solid rgba(20,192,120,0.12);
+}
 .btn.small{ padding:5px 7px; font-size:12px; }
 
-/* count badge between - and + */
+/* Count badge between - and + */
 .count{
+  min-width:36px;
+  height:30px;
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  min-width:36px;
-  height:30px;
-  padding:0 8px;
   border-radius:999px;
   background: rgba(0,0,0,0.55);
   border: 1px solid rgba(255,255,255,0.04);
@@ -190,7 +172,7 @@ body{
   font-size:13px;
 }
 
-/* Bottom area */
+/* Bottom area (totals + invoice) */
 .bottom-bar{
   margin-top:20px;
   display:flex;
@@ -200,49 +182,18 @@ body{
   padding:14px;
   border-radius:12px;
   background: var(--card-bg);
-  border: 1px solid var(--border-subtle);
-  position:relative;
-  z-index:2;
+  border: 1px solid rgba(255,255,255,0.02);
 }
 
-/* Totals */
-.left-panel{ display:flex; flex-direction:column; gap:10px; min-width:480px; }
-.totals-card{ background: var(--panel-bg); padding:12px; border-radius:10px; border: 1px solid var(--border-subtle); }
-.totals-row{display:flex;gap:18px;align-items:center}
-.totals-row .muted{color:var(--muted);font-size:13px}
-.totals-row .big{font-weight:800;font-size:18px}
-.total-price{ font-size:18px;color:var(--accent);font-weight:800; margin-top:4px; }
-
-/* Invoice */
-.right-panel{ display:flex; flex-direction:column; gap:8px; align-items:flex-end; width:60%; }
-.invoice-card{ width:100%; background: var(--panel-bg); padding:12px; border-radius:10px; border:1px solid var(--border-subtle); display:flex; flex-direction:column; gap:10px; }
-.invoice-card #invoiceText{ width:100%; min-height:64px; padding:12px; border-radius:8px; border:1px solid rgba(255,255,255,0.03); background: var(--panel-bg); color:var(--text); resize:vertical; }
-
-/* Buttons under invoice */
-.buttons{display:flex;gap:8px;justify-content:flex-end}
-.btn-primary{background:linear-gradient(180deg,#0b6a8a,#0f4d6d);padding:10px 14px;border-radius:10px;border:none;color:white;cursor:pointer;font-weight:700}
-.btn-reset{
-  background: linear-gradient(180deg,#a73a3a,#7a1f2d);
-  color: #fff;
-  border: 1px solid rgba(167,58,58,0.2);
-  padding:10px 14px;
-  border-radius:10px;
-  cursor:pointer;
-  font-weight:700;
-}
-
-/* Responsive tuning */
+/* small screens adjustments */
 @media (max-width:1200px){
   :root{ --container-width: 1040px; --board-width: 320px; --controls-width: 150px; --badge-width:78px; }
   .left{ flex: 1 1 calc(var(--board-width) - var(--controls-width) - 36px); }
 }
 @media (max-width:980px){
-  .boards{flex-direction:column;align-items:stretch}
-  .board{width:100%}
-  .bottom-bar{flex-direction:column;align-items:stretch}
-  .left-panel{width:100%}
-  .right-panel{width:100%;align-items:stretch}
-  /* On small screens controls shrink so names can remain one line if possible */
+  .boards{ flex-direction:column; align-items:stretch; gap:12px; }
+  .board{ width:100%; min-height: auto; }
+  .left{ flex:1 1 200px; }
   :root{ --controls-width: 140px; --badge-width:68px; }
   .name{ font-size:14px; }
 }
