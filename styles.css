@@ -9,11 +9,10 @@
   --red: #9a2f3a;
   --green: #1fc07f;
 
-  /* minimal widen + slightly smaller buttons per your request */
-  --container-width: 1380px; /* slightly larger so 3 boards fit comfortably */
-  --board-width: 450px;      /* increased so longer names fit on one line */
-  --controls-width: 140px;   /* slightly smaller control area */
-  --badge-width: 68px;       /* a bit narrower badge */
+  --container-width: 1280px;
+  --board-width: 420px;
+  --controls-width: 160px;
+  --badge-width: 72px;
 }
 
 /* Reset / Basics */
@@ -39,6 +38,26 @@ body{
   overflow:visible;
 }
 
+/* Header - centered title across the board */
+.topbar{
+  margin-bottom:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center; /* centers the title horizontally */
+  gap:12px;
+}
+.title{
+  width:100%;
+  display:flex;
+  justify-content:center; /* ensure exact centering inside container */
+}
+.title h1{
+  margin:0;
+  font-size:18px;
+  font-weight:800;
+  letter-spacing:0.4px;
+}
+
 /* Boards */
 .boards{ display:flex; gap:18px; width:100%; align-items:flex-start; justify-content:center; }
 .board{
@@ -50,6 +69,16 @@ body{
   border: 1px solid rgba(255,255,255,0.03);
   display:flex;
   flex-direction:column;
+}
+.board h2{
+  margin:0 0 12px 0;
+  font-size:13px;
+  color:var(--muted);
+  letter-spacing:2px;
+  padding:8px 10px;
+  border-radius:8px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.01));
+  border: 1px solid rgba(255,255,255,0.015);
 }
 
 /* Items */
@@ -67,7 +96,7 @@ body{
 }
 .item:hover{ background:#0f1516; border-color: rgba(255,255,255,0.035); }
 
-/* LEFT: badge + name area */
+/* LEFT */
 .left{
   display:flex;
   align-items:center;
@@ -75,8 +104,6 @@ body{
   flex: 1 1 auto;
   min-width: 0;
 }
-
-/* price badge */
 .badge-price{
   background:#0c2a31;
   padding:6px 10px;
@@ -90,156 +117,39 @@ body{
   width:var(--badge-width);
   text-align:center;
 }
-
-/* text container */
-.left .text{
-  display:flex;
-  flex-direction:column;
-  gap:4px;
-  min-width:0;
-  flex: 1 1 auto;
-  overflow: hidden;
-}
-
-/* PRODUCT NAME: keep single-line; board widened so common names fit */
-.name{
-  font-weight:700;
-  color: var(--text);
-  font-size:14px;
-  line-height:1.2;
-  margin:0;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-
-/* hide small category */
+.left .text{ display:flex; flex-direction:column; gap:4px; min-width:0; flex:1 1 auto; overflow:hidden; }
+.name{ font-weight:700; color: var(--text); font-size:14px; line-height:1.2; margin:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .item .muted{ display:none; }
 
-/* CONTROLS (right) - fixed reservation so they never overlap left */
-.controls{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  flex: 0 0 var(--controls-width);
-  justify-content:flex-end;
-  white-space:nowrap;
-  z-index:4;
-}
-
-/* Make item buttons smaller / uniform */
-.controls .btn{
-  width:32px;
-  height:32px;
-  padding:0;
-  line-height:32px;
-  border-radius:999px;
-  border:none;
-  color:white;
-  font-weight:700;
-  cursor:pointer;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  font-size:12px;
-  box-sizing:border-box;
-}
-
-/* Small variant uses same visual size */
+/* CONTROLS */
+.controls{ display:flex; align-items:center; gap:8px; flex: 0 0 var(--controls-width); justify-content:flex-end; white-space:nowrap; z-index:4; }
+.controls .btn{ width:32px; height:32px; padding:0; line-height:32px; border-radius:999px; border:none; color:white; font-weight:700; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; font-size:12px; box-sizing:border-box; }
 .controls .btn.small{ width:32px; height:32px; font-size:12px; }
+.controls .btn.minus{ background: linear-gradient(180deg,var(--red),#6b1a22); padding:0; }
+.controls .btn.plus{ background: linear-gradient(180deg,var(--green),#0b8e57); color:#fff; padding:0; border: 1px solid rgba(20,192,120,0.12); box-shadow: 0 4px 12px rgba(11,142,87,0.06); }
+.controls .count{ min-width:34px; height:32px; display:inline-flex; align-items:center; justify-content:center; border-radius:999px; background: rgba(0,0,0,0.55); border: 1px solid rgba(255,255,255,0.04); color: var(--text); font-weight:800; font-size:12px; padding:0 6px; box-sizing:border-box; }
 
-/* Minus (red) */
-.controls .btn.minus{
-  background: linear-gradient(180deg,var(--red),#6b1a22);
-  padding:0;
-}
-
-/* Plus (green) */
-.controls .btn.plus{
-  background: linear-gradient(180deg,var(--green),#0b8e57);
-  color:#fff;
-  padding:0;
-  border: 1px solid rgba(20,192,120,0.12);
-  box-shadow: 0 4px 12px rgba(11,142,87,0.06);
-}
-
-/* Count badge - match height and look consistent */
-.controls .count{
-  min-width:34px;
-  height:32px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:999px;
-  background: rgba(0,0,0,0.55);
-  border: 1px solid rgba(255,255,255,0.04);
-  color: var(--text);
-  font-weight:800;
-  font-size:12px;
-  padding:0 6px;
-  box-sizing:border-box;
-}
-
-/* Bottom area (restore previous look) */
-.bottom-bar{
-  margin-top:20px;
-  display:flex;
-  gap:18px;
-  align-items:flex-start;
-  justify-content:space-between;
-  padding:14px;
-  border-radius:12px;
-  background: var(--card-bg);
-  border: 1px solid rgba(255,255,255,0.02);
-  position:relative;
-  z-index:2;
-}
-
-/* left totals card */
+/* Bottom */
+.bottom-bar{ margin-top:20px; display:flex; gap:18px; align-items:flex-start; justify-content:space-between; padding:14px; border-radius:12px; background: var(--card-bg); border: 1px solid rgba(255,255,255,0.02); position:relative; z-index:2; }
 .left-panel{ display:flex; flex-direction:column; gap:10px; min-width:420px; }
-.totals-card{
-  background: var(--panel-bg);
-  padding:12px;
-  border-radius:10px;
-  border: 1px solid rgba(255,255,255,0.03);
-}
+.totals-card{ background: var(--panel-bg); padding:12px; border-radius:10px; border: 1px solid rgba(255,255,255,0.03); }
 .totals-row{ display:flex; gap:18px; align-items:center; }
 .totals-row .muted{ color:var(--muted); font-size:13px; margin-right:8px;}
 .totals-row .big{ font-weight:800; font-size:18px; margin-right:10px; }
 .total-price{ font-size:18px; color:var(--accent); font-weight:800; margin-top:4px; }
 
-/* right invoice card */
 .right-panel{ display:flex; flex-direction:column; gap:8px; align-items:flex-end; width:60%; }
-.invoice-card{
-  width:100%;
-  background: var(--panel-bg);
-  padding:12px;
-  border-radius:10px;
-  border:1px solid rgba(255,255,255,0.03);
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-}
-.invoice-card #invoiceText{
-  width:100%;
-  min-height:64px;
-  padding:12px;
-  border-radius:8px;
-  border:1px solid rgba(255,255,255,0.03);
-  background: var(--panel-bg);
-  color:var(--text);
-  resize:vertical;
-}
+.invoice-card{ width:100%; background: var(--panel-bg); padding:12px; border-radius:10px; border:1px solid rgba(255,255,255,0.03); display:flex; flex-direction:column; gap:10px; }
+.invoice-card #invoiceText{ width:100%; min-height:64px; padding:12px; border-radius:8px; border:1px solid rgba(255,255,255,0.03); background: var(--panel-bg); color:var(--text); resize:vertical; }
 .buttons{ display:flex; gap:8px; justify-content:flex-end; }
 .btn-primary{ background:linear-gradient(180deg,#0b6a8a,#0f4d6d); padding:10px 14px; border-radius:10px; border:none; color:white; cursor:pointer; font-weight:700; }
 .btn-reset{ background: linear-gradient(180deg,#a73a3a,#7a1f2d); color:#fff; border:1px solid rgba(167,58,58,0.2); padding:10px 14px; border-radius:10px; cursor:pointer; font-weight:700; }
 
-/* Responsive tuning */
+/* Responsive */
 @media (max-width:1200px){
   :root{ --container-width: 1040px; --board-width: 320px; --controls-width: 140px; --badge-width:68px; }
   .left{ flex: 1 1 auto; }
   .name{ font-size:13px; }
-  .controls .btn, .controls .count{ height:28px; width:28px; line-height:28px; }
 }
 @media (max-width:980px){
   .boards{ flex-direction:column; align-items:stretch; gap:12px; }
@@ -247,5 +157,4 @@ body{
   :root{ --controls-width: 140px; --badge-width:68px; }
   .left{ flex:1 1 200px; }
   .name{ font-size:13px; }
-  .controls .btn, .controls .count{ height:28px; width:28px; line-height:28px; }
 }
