@@ -38,26 +38,6 @@ body{
   overflow:visible;
 }
 
-/* Header - centered title across the board */
-.topbar{
-  margin-bottom:12px;
-  display:flex;
-  align-items:center;
-  justify-content:center; /* centers the title horizontally */
-  gap:12px;
-}
-.title{
-  width:100%;
-  display:flex;
-  justify-content:center; /* ensure exact centering inside container */
-}
-.title h1{
-  margin:0;
-  font-size:18px;
-  font-weight:800;
-  letter-spacing:0.4px;
-}
-
 /* Boards */
 .boards{ display:flex; gap:18px; width:100%; align-items:flex-start; justify-content:center; }
 .board{
@@ -69,16 +49,6 @@ body{
   border: 1px solid rgba(255,255,255,0.03);
   display:flex;
   flex-direction:column;
-}
-.board h2{
-  margin:0 0 12px 0;
-  font-size:13px;
-  color:var(--muted);
-  letter-spacing:2px;
-  padding:8px 10px;
-  border-radius:8px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.01));
-  border: 1px solid rgba(255,255,255,0.015);
 }
 
 /* Items */
