@@ -8,8 +8,12 @@
   --accent: #12b886;
   --accent-2: #0ea5a2;
   --border-subtle: rgba(255,255,255,0.04);
-  --border-strong: rgba(255,255,255,0.06);
-  --container-width: 1180px;
+
+  /* Tunable layout vars — increase if you want more name space */
+  --container-width: 1360px; /* overall container width */
+  --board-width: 420px;      /* all boards equal width */
+  --controls-width: 180px;   /* reserved width for buttons & count */
+  --badge-width: 86px;       /* approximate width for price badge + gap */
 }
 
 /* Basics */
@@ -40,16 +44,16 @@ body{
 .title h1{margin:0;font-size:18px}
 .subtitle{margin:4px 0 0 0;color:var(--muted);font-size:13px}
 
-/* Boards */
+/* Boards layout */
 .boards-outer{ display:flex; justify-content:center; margin-bottom:14px; padding-bottom:14px; }
-.boards{ display:flex; gap:16px; width:100%; align-items:flex-start; justify-content:center; }
+.boards{ display:flex; gap:18px; width:100%; align-items:flex-start; justify-content:center; }
 
 .board{
-  width:360px;
+  width:var(--board-width);
   background: var(--card-bg);
   padding:12px;
   border-radius:12px;
-  min-height:380px;
+  min-height:420px;
   border: 1px solid var(--border-subtle);
   position:relative;
   z-index:1;
@@ -57,7 +61,7 @@ body{
   flex-direction:column;
 }
 .board h2{
-  margin:0 0 10px 0;
+  margin:0 0 12px 0;
   font-size:13px;
   color:var(--muted);
   letter-spacing:2px;
@@ -67,8 +71,8 @@ body{
   border: 1px solid rgba(255,255,255,0.015);
 }
 
-/* ITEMS: Flex layout (left = badge+name; right = controls) */
-.items{display:flex;flex-direction:column;gap:10px}
+/* Items — left = badge+name, right = fixed controls */
+.items{display:flex;flex-direction:column;gap:12px}
 .item{
   display:flex;
   align-items:center;
@@ -84,18 +88,21 @@ body{
   overflow: visible;
 }
 .item:hover{
-  border-color: var(--border-strong);
-  background: #101518;
+  border-color: rgba(255,255,255,0.03);
+  background: #0f1516;
 }
 
-/* LEFT area */
+/* LEFT: badge + text; give it a healthy base width so names fit single-line */
 .left{
   display:flex;
   align-items:center;
   gap:12px;
-  flex: 1 1 auto;
-  min-width: 0;
+  /* base width = board width - controls - paddings; keeps names on one line more often */
+  flex: 1 1 calc(var(--board-width) - var(--controls-width) - 36px);
+  min-width: 0; /* critical to allow proper flex shrink */
 }
+
+/* price badge */
 .badge-price{
   background:#0c2a31;
   padding:6px 10px;
@@ -106,7 +113,11 @@ body{
   border:1px solid rgba(255,255,255,0.02);
   flex: 0 0 auto;
   white-space:nowrap;
+  width: var(--badge-width);
+  text-align:center;
 }
+
+/* text container */
 .left .text{
   display:flex;
   flex-direction:column;
@@ -115,33 +126,34 @@ body{
   flex: 1 1 auto;
   overflow: hidden;
 }
+
+/* PRODUCT NAME: single line only (no wrap), ellipsis if too long */
 .name{
   font-weight:700;
   color: var(--text);
   font-size:15px;
   line-height:1.2;
   margin:0;
+  white-space:nowrap;           /* always single line */
   overflow:hidden;
-  text-overflow:ellipsis;
-  word-break:break-word;
-  display:-webkit-box;
-  -webkit-line-clamp:2;
-  -webkit-box-orient:vertical;
+  text-overflow:ellipsis;      /* show ellipsis if not fitting */
 }
 
-/* hide category */
+/* hide small category label */
 .item .muted { display:none; }
 
-/* CONTROLS (right) */
+/* CONTROLS: fixed reservation so they never overlap name */
 .controls{
   display:flex;
   align-items:center;
   gap:8px;
-  flex: 0 0 auto;
+  flex: 0 0 var(--controls-width);
   justify-content:flex-end;
   white-space:nowrap;
   z-index:4;
 }
+
+/* Buttons */
 .btn{
   border-radius:999px;
   border:none;
@@ -152,12 +164,17 @@ body{
   align-items:center;
   justify-content:center;
   font-size:13px;
-  padding:6px 9px;
+  padding:6px 10px;
 }
+
+/* minus (red) */
 .btn.minus{ background: linear-gradient(180deg,#9a2f3a,#6b1a22); padding:6px 8px; }
+
+/* plus (green) */
 .btn.plus{ background: linear-gradient(180deg,#1fc07f,#0b8e57); padding:6px 10px; color:#fff; border:1px solid rgba(20,192,120,0.12); box-shadow:0 4px 12px rgba(11,142,87,0.06); }
 .btn.small{ padding:5px 7px; font-size:12px; }
 
+/* count badge between - and + */
 .count{
   display:inline-flex;
   align-items:center;
@@ -166,7 +183,7 @@ body{
   height:30px;
   padding:0 8px;
   border-radius:999px;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0,0,0,0.55);
   border: 1px solid rgba(255,255,255,0.04);
   color: var(--text);
   font-weight:800;
@@ -175,7 +192,7 @@ body{
 
 /* Bottom area */
 .bottom-bar{
-  margin-top:18px;
+  margin-top:20px;
   display:flex;
   gap:18px;
   align-items:flex-start;
@@ -214,10 +231,10 @@ body{
   font-weight:700;
 }
 
-/* Responsive */
+/* Responsive tuning */
 @media (max-width:1200px){
-  :root{ --container-width: 1040px; }
-  .board{width:320px}
+  :root{ --container-width: 1040px; --board-width: 320px; --controls-width: 150px; --badge-width:78px; }
+  .left{ flex: 1 1 calc(var(--board-width) - var(--controls-width) - 36px); }
 }
 @media (max-width:980px){
   .boards{flex-direction:column;align-items:stretch}
@@ -225,7 +242,7 @@ body{
   .bottom-bar{flex-direction:column;align-items:stretch}
   .left-panel{width:100%}
   .right-panel{width:100%;align-items:stretch}
-  .name{ -webkit-line-clamp:1; }
-  .controls{ gap:6px; }
-  .btn{ padding:6px 8px; font-size:12px; }
+  /* On small screens controls shrink so names can remain one line if possible */
+  :root{ --controls-width: 140px; --badge-width:68px; }
+  .name{ font-size:14px; }
 }
