@@ -17,7 +17,8 @@ const ITEMS = [
   { id: 'ice', name: 'Shot Ice', category: 'drink', price: 200 },
 ];
 
-const RESTAURANT_NAME = 'Burger Shot';
+// Geändert: Restaurantname ohne Leerzeichen -> "BurgerShot"
+const RESTAURANT_NAME = 'BurgerShot';
 
 const state = {};
 ITEMS.forEach(i => state[i.id] = 0);
