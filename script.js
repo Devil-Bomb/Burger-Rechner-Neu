@@ -1,23 +1,23 @@
-// Bestell-Rechner • Burger Shot
+// Bestell-Rechner • BurgerShot
 // Left = badge + single-line name, right = fixed controls
 // Clears lists before render to avoid duplicates.
 
 const ITEMS = [
-  { id: 'murder', name: 'Murder Meal', category: 'food', price: 2000 },
-  { id: 'burger', name: 'Burger Shot', category: 'food', price: 300 },
-  { id: 'nuggets', name: 'Chicken Nuggets', category: 'food', price: 300 },
-  { id: 'wings', name: 'Shot Wings', category: 'food', price: 250 },
-  { id: 'fries', name: 'Shot Fries', category: 'food', price: 250 },
-  { id: 'bleeder', name: 'The Bleeder', category: 'food', price: 200 },
+  { id: 'murder', name: 'Murder Meal', category: 'food', price: 5000 },
+  { id: 'burger', name: 'Burger Shot', category: 'food', price: 550 },
+  { id: 'nuggets', name: 'Chicken Nuggets', category: 'food', price: 550 },
+  { id: 'wings', name: 'Shot Wings', category: 'food', price: 450 },
+  { id: 'fries', name: 'Shot Fries', category: 'food', price: 450 },
+  { id: 'bleeder', name: 'The Bleeder', category: 'food', price: 350 },
 
-  { id: 'lolli', name: 'Lollipop', category: 'dessert', price: 150 },
-  { id: 'icecream', name: 'Icecream', category: 'dessert', price: 150 },
+  { id: 'lolli', name: 'Lollipop', category: 'dessert', price: 250 },
+  { id: 'icecream', name: 'Icecream', category: 'dessert', price: 250 },
 
-  { id: 'shake', name: 'Shot Shake', category: 'drink', price: 200 },
-  { id: 'ice', name: 'Shot Ice', category: 'drink', price: 200 },
+  { id: 'shake', name: 'Shot Shake', category: 'drink', price: 250 },
+  { id: 'ice', name: 'Shot Ice', category: 'drink', price: 250 },
 ];
 
-// Geändert: Restaurantname ohne Leerzeichen -> "BurgerShot"
+// Restaurantname ohne Leerzeichen -> "BurgerShot"
 const RESTAURANT_NAME = 'BurgerShot';
 
 const state = {};
